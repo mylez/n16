@@ -1558,8 +1558,13 @@ yyreturn:
 
 int main(int argc, char **argv)
 {
-    yyparse();
-    return 0;
+    if (yyparse() == 0)
+    {
+        printf("success\n");
+        return 0;
+    }
+    printf("failure\n");
+    return 1;
 }
 
 void yyerror(char *s)
