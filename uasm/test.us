@@ -4,6 +4,8 @@
 %ram_r:
     EN_RAM, RAM_R;
 
+@someLabel:
+@anotherLabel:
 @fetch1:
     EN_INST, EN_IR_0, EN_PC;    // | %ram_r;
 
@@ -11,8 +13,6 @@
     EN_INST, EN_IR_1, EN_PC;    // | %ram_r;
 
 @op_bz:
-//    %fetch2;
-//    EN_INST, MC_DEC_0, branch(@1, @2);
 @1:
     EN_PC, MC_DEC_0, EN_IR, ~RAM_R;
 @2:

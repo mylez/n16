@@ -69,26 +69,24 @@
      SIG_VAL = 258,
      SIG_ADDR = 259,
      SIG_LINE = 260,
-     LABEL = 261,
-     COLON = 262,
-     SEMI_COLON = 263,
-     COMMA = 264,
-     LPAREN = 265,
-     RPAREN = 266,
-     TILDE = 267
+     COLON = 261,
+     SEMI_COLON = 262,
+     COMMA = 263,
+     LPAREN = 264,
+     RPAREN = 265,
+     TILDE = 266
    };
 #endif
 /* Tokens.  */
 #define SIG_VAL 258
 #define SIG_ADDR 259
 #define SIG_LINE 260
-#define LABEL 261
-#define COLON 262
-#define SEMI_COLON 263
-#define COMMA 264
-#define LPAREN 265
-#define RPAREN 266
-#define TILDE 267
+#define COLON 261
+#define SEMI_COLON 262
+#define COMMA 263
+#define LPAREN 264
+#define RPAREN 265
+#define TILDE 266
 
 
 
@@ -97,11 +95,13 @@
 #line 1 "uasm.y"
 
 #include <stdio.h>
+#include <string.h>
 #include "ast.h"
 
 int yylex();
 void yyerror();
 
+struct ast_node *ast_root;
 
 
 /* Enabling traces.  */
@@ -124,7 +124,7 @@ void yyerror();
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 14 "uasm.y"
+#line 16 "uasm.y"
 {
     struct ast_node *node;
     char *text;
@@ -356,22 +356,22 @@ union yyalloc
 #endif
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  11
+#define YYFINAL  12
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   17
+#define YYLAST   21
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  13
+#define YYNTOKENS  12
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  6
+#define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  11
+#define YYNRULES  10
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  17
+#define YYNSTATES  19
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   267
+#define YYMAXUTOK   266
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -405,7 +405,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12
+       5,     6,     7,     8,     9,    10,    11
 };
 
 #if YYDEBUG
@@ -413,23 +413,23 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     5,     8,    11,    14,    16,    20,    22,
-      25,    27
+       0,     0,     3,     5,     8,    11,    16,    19,    21,    25,
+      27
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      14,     0,    -1,    15,    -1,    14,    15,    -1,    18,     7,
-      -1,    16,     8,    -1,    17,    -1,    16,     9,    17,    -1,
-       5,    -1,    12,    17,    -1,     3,    -1,     4,    -1
+      13,     0,    -1,    14,    -1,    13,    14,    -1,     4,     6,
+      -1,     3,     6,    15,     7,    -1,    15,     7,    -1,    16,
+      -1,    15,     8,    16,    -1,     5,    -1,    11,    16,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    23,    23,    24,    28,    29,    33,    34,    38,    39,
-      43,    44
+       0,    26,    26,    36,    44,    51,    58,    68,    77,    85,
+      93
 };
 #endif
 
@@ -439,8 +439,8 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "SIG_VAL", "SIG_ADDR", "SIG_LINE",
-  "LABEL", "COLON", "SEMI_COLON", "COMMA", "LPAREN", "RPAREN", "TILDE",
-  "$accept", "program", "statement", "sig_expr", "sig_line", "label", 0
+  "COLON", "SEMI_COLON", "COMMA", "LPAREN", "RPAREN", "TILDE", "$accept",
+  "program", "statement", "sig_expr", "sig_line", 0
 };
 #endif
 
@@ -450,22 +450,22 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267
+     265,   266
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    13,    14,    14,    15,    15,    16,    16,    17,    17,
-      18,    18
+       0,    12,    13,    13,    14,    14,    14,    15,    15,    16,
+      16
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     2,     2,     2,     1,     3,     1,     2,
-       1,     1
+       0,     2,     1,     2,     2,     4,     2,     1,     3,     1,
+       2
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -473,29 +473,29 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,    10,    11,     8,     0,     0,     2,     0,     6,     0,
-       9,     1,     3,     5,     0,     4,     7
+       0,     0,     0,     9,     0,     0,     2,     0,     7,     0,
+       4,    10,     1,     3,     6,     0,     0,     8,     5
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     5,     6,     7,     8,     9
+      -1,     5,     6,     7,     8
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -6
+#define YYPACT_NINF -5
 static const yytype_int8 yypact[] =
 {
-       3,    -6,    -6,    -6,     4,     0,    -6,     5,    -6,    -5,
-      -6,    -6,    -6,    -6,     4,    -6,    -6
+       3,    -4,     7,    -5,     4,     0,    -5,     9,    -5,     4,
+      -5,    -5,    -5,    -5,    -5,     4,    11,    -5,    -5
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -6,    -6,    12,    -6,    -3,    -6
+      -5,    -5,     5,    12,    -3
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -505,22 +505,24 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      11,    10,    15,     1,     2,     3,     1,     2,     3,     3,
-       0,    16,     4,    13,    14,     4,     4,    12
+      12,    11,     9,     1,     2,     3,     1,     2,     3,     3,
+      13,     4,    17,    10,     4,     4,    14,    15,    18,    15,
+       0,    16
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     4,     7,     3,     4,     5,     3,     4,     5,     5,
-      -1,    14,    12,     8,     9,    12,    12,     5
+       0,     4,     6,     3,     4,     5,     3,     4,     5,     5,
+       5,    11,    15,     6,    11,    11,     7,     8,     7,     8,
+      -1,     9
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     4,     5,    12,    14,    15,    16,    17,    18,
-      17,     0,    15,     8,     9,     7,    17
+       0,     3,     4,     5,    11,    13,    14,    15,    16,     6,
+       6,    16,     0,    14,     7,     8,    15,    16,     7
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1334,29 +1336,99 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 4:
-#line 28 "uasm.y"
-    { printf("label\n"); ;}
+        case 2:
+#line 27 "uasm.y"
+    {
+    ast_root = malloc(sizeof(struct ast_node));
+    ast_root->program = malloc(sizeof(struct program *));
+    ast_root->program->statements = malloc(64*sizeof(struct ast_node *));
+    ast_root->program->statement_count = 1;
+    ast_root->program->statements[0] = (yyvsp[(1) - (1)].node);
+
+    printf("creating program: %p\n", (yyval.node));
+;}
+    break;
+
+  case 3:
+#line 37 "uasm.y"
+    { 
+    printf("adding statement %p: to program: %p\n",(yyvsp[(2) - (2)].node), ast_root);
+    ast_root->program->statements[ast_root->program->statement_count++] = (yyvsp[(2) - (2)].node);
+;}
+    break;
+
+  case 4:
+#line 45 "uasm.y"
+    {
+    (yyval.node) = malloc(sizeof(struct ast_node));
+    (yyval.node)->statement_addr = malloc(sizeof(struct statement_addr));
+    (yyval.node)->node_type = T_STATEMENT_ADDR;
+    (yyval.node)->statement_addr->label = (yyvsp[(1) - (2)].text);
+;}
     break;
 
   case 5:
-#line 29 "uasm.y"
-    { printf("expr\n"); ;}
+#line 52 "uasm.y"
+    {
+    (yyval.node) = malloc(sizeof(struct ast_node));
+    (yyval.node)->statement_val = malloc(sizeof(struct statement_val));
+    (yyval.node)->node_type = T_STATEMENT_VAL;
+    (yyval.node)->statement_val->label = (yyvsp[(1) - (4)].text);
+;}
+    break;
+
+  case 6:
+#line 59 "uasm.y"
+    {
+    (yyval.node) = malloc(sizeof(struct ast_node));
+    (yyval.node)->node_type = T_STATEMENT_VAL;
+    (yyval.node)->statement_val = malloc(sizeof(struct statement_addr));
+    (yyval.node)->statement_val->label = NULL;
+;}
+    break;
+
+  case 7:
+#line 69 "uasm.y"
+    { 
+    (yyval.node) = malloc(sizeof(struct ast_node));
+    (yyval.node)->node_type = T_SIG_EXPR;
+    (yyval.node)->sig_expr = malloc(sizeof(struct sig_expr));
+    (yyval.node)->sig_expr->sig_lines = malloc(64*sizeof(struct ast_node *));
+    (yyval.node)->sig_expr->sig_lines[0] = (yyvsp[(1) - (1)].node);
+    (yyval.node)->sig_expr->sig_line_count = 1;
+;}
     break;
 
   case 8:
-#line 38 "uasm.y"
-    { printf("signal line\n"); ;}
+#line 78 "uasm.y"
+    {
+    (yyval.node) = (yyvsp[(1) - (3)].node);
+    (yyval.node)->sig_expr->sig_lines[(yyval.node)->sig_expr->sig_line_count++] = (yyvsp[(3) - (3)].node);
+;}
     break;
 
   case 9:
-#line 39 "uasm.y"
-    { printf("inverted signal line\n"); ;}
+#line 86 "uasm.y"
+    {
+    (yyval.node) = malloc(sizeof(struct ast_node));
+    (yyval.node)->node_type = T_SIG_LINE;
+    (yyval.node)->sig_line = malloc(sizeof(struct sig_line));
+    (yyval.node)->sig_line->inverted = 0;
+    (yyval.node)->sig_line->label = strdup((yyvsp[(1) - (1)].text));
+;}
+    break;
+
+  case 10:
+#line 94 "uasm.y"
+    {
+    (yyval.node) = (yyvsp[(2) - (2)].node); 
+    (yyval.node)->sig_line->inverted = !(yyval.node)->sig_line->inverted;
+;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1360 "uasm.tab.c"
+#line 1432 "uasm.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1570,18 +1642,38 @@ yyreturn:
 }
 
 
-#line 47 "uasm.y"
+#line 105 "uasm.y"
 
 
 int main(int argc, char **argv)
 {
-    if (yyparse() == 0)
+    int res = yyparse(); 
+    printf("%s\n", res ? "failure" : "success");
+   
+    const int signal_bus_width = 0x100;
+    bool signal_rom[0x100][signal_bus_width];
+
+    int uc_addr = 0;
+    for (int i = 0; i < ast_root->program->statement_count; i++)
     {
-        printf("success\n");
-        return 0;
+        struct ast_node *n = ast_root->program->statements[i];
+        char *label;
+        switch (n->node_type)
+        {
+        case T_STATEMENT_VAL:
+            label = n->statement_val->label;
+            uc_addr += 1;
+            break;
+        case T_STATEMENT_ADDR:
+            label = n->statement_addr->label;
+            break;
+        default:
+            break;
+        }
+
+        printf("statement %d: %p %s\n", i, n, label);
     }
-    printf("failure\n");
-    return 1;
+    return res;
 }
 
 void yyerror(char *s)

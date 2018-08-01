@@ -5,11 +5,9 @@
 %%
 
 
-"%"[_a-zA-Z0-9]+        { yylval.text = yytext; return SIG_VAL; }
-"@"[_a-zA-Z0-9]+        { yylval.text = yytext; return SIG_ADDR; }
-[_a-z][_a-z0-9]*        { yylval.text = yytext; return LABEL; }
-[_A-Z][_A-Z0-9]*        { yylval.text = yytext; return SIG_LINE; }
-
+"%"[_a-zA-Z0-9]+        { yylval.text = strdup(yytext); return SIG_VAL; }
+"@"[_a-zA-Z0-9]+        { yylval.text = strdup(yytext); return SIG_ADDR; }
+[_A-Z]+                 { return SIG_LINE; }
 ":"                     { return COLON; }
 ";"                     { return SEMI_COLON; }
 ","                     { return COMMA; }

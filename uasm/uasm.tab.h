@@ -42,39 +42,37 @@
      SIG_VAL = 258,
      SIG_ADDR = 259,
      SIG_LINE = 260,
-     LABEL = 261,
-     COLON = 262,
-     SEMI_COLON = 263,
-     COMMA = 264,
-     LPAREN = 265,
-     RPAREN = 266,
-     TILDE = 267
+     COLON = 261,
+     SEMI_COLON = 262,
+     COMMA = 263,
+     LPAREN = 264,
+     RPAREN = 265,
+     TILDE = 266
    };
 #endif
 /* Tokens.  */
 #define SIG_VAL 258
 #define SIG_ADDR 259
 #define SIG_LINE 260
-#define LABEL 261
-#define COLON 262
-#define SEMI_COLON 263
-#define COMMA 264
-#define LPAREN 265
-#define RPAREN 266
-#define TILDE 267
+#define COLON 261
+#define SEMI_COLON 262
+#define COMMA 263
+#define LPAREN 264
+#define RPAREN 265
+#define TILDE 266
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 14 "uasm.y"
+#line 16 "uasm.y"
 {
     struct ast_node *node;
     char *text;
 }
 /* Line 1529 of yacc.c.  */
-#line 78 "uasm.tab.h"
+#line 76 "uasm.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

@@ -1,7 +1,5 @@
-CC_FLAGS = -Wimplicit-function-declaration
-
 uasm: scanner parser
-	cc $(CC_FLAGS) -lfl -o uasm uasm.tab.c lex.yy.c
+	cc -g -lfl -o uasm uasm.tab.c lex.yy.c
 
 parser:
 	bison -v -d uasm.y
