@@ -9,7 +9,7 @@ void yyerror();
 struct ast_node *ast_root;
 %}
 
-%token SIG_VAL SIG_ADDR SIG_LINE
+%token SIG_VAL SIG_LABEL SIG_LINE
 %token COLON SEMI_COLON COMMA LPAREN RPAREN TILDE NUMBER_DEC NUMBER_HEX
 
 %union
@@ -18,7 +18,7 @@ struct ast_node *ast_root;
     char *text;
 }
 %type <node> program sig_line sig_expr statement
-%type <text> SIG_LINE SIG_ADDR SIG_VAL COLON
+%type <text> SIG_LINE SIG_LABEL SIG_VAL COLON
 
 %%
 
@@ -42,12 +42,12 @@ program
 ;
 
 statement
-: SIG_ADDR COLON
+: SIG_LABEL COLON
 {
     $$ = malloc(sizeof(struct ast_node));
-    $$->statement_addr = malloc(sizeof(struct statement_addr));
-    $$->node_type = T_STATEMENT_ADDR;
-    $$->statement_addr->label = $1;
+    $$->statement_label = malloc(sizeof(struct statement_label));
+    $$->node_type = T_STATEMENT_LABEL;
+    $$->statement_label->label = $1;
 }
 | SIG_VAL COLON sig_expr SEMI_COLON             
 {
@@ -60,7 +60,7 @@ statement
 {
     $$ = malloc(sizeof(struct ast_node));
     $$->node_type = T_STATEMENT_VAL;
-    $$->statement_val = malloc(sizeof(struct statement_addr));
+    $$->statement_val = malloc(sizeof(struct statement_label));
     $$->statement_val->label = NULL;
 }
 ;
@@ -100,7 +100,7 @@ sig_line
 
 label
     : SIG_VAL
-    | SIG_ADDR
+    | SIG_LABEL
     ;
 
 %%
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
     int res = yyparse(); 
     printf("%s\n", res ? "failure" : "success");
    
-    const int signal_bus_width = 0x100;
+    const int signal_bus_width = 40;
     bool signal_rom[0x100][signal_bus_width];
 
     int uc_addr = 0;
@@ -124,8 +124,8 @@ int main(int argc, char **argv)
             label = n->statement_val->label;
             uc_addr += 1;
             break;
-        case T_STATEMENT_ADDR:
-            label = n->statement_addr->label;
+        case T_STATEMENT_LABEL:
+            label = n->statement_label->label;
             break;
         default:
             break;

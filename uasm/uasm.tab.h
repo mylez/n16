@@ -40,7 +40,7 @@
       know about them.  */
    enum yytokentype {
      SIG_VAL = 258,
-     SIG_ADDR = 259,
+     SIG_LABEL = 259,
      SIG_LINE = 260,
      COLON = 261,
      SEMI_COLON = 262,
@@ -54,7 +54,7 @@
 #endif
 /* Tokens.  */
 #define SIG_VAL 258
-#define SIG_ADDR 259
+#define SIG_LABEL 259
 #define SIG_LINE 260
 #define COLON 261
 #define SEMI_COLON 262

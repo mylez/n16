@@ -8,7 +8,7 @@ enum NODE_TYPE
     _,
     T_PROGRAM,
     T_STATEMENT_VAL,
-    T_STATEMENT_ADDR,
+    T_STATEMENT_LABEL,
     T_SIG_EXPR,
     T_SIG_LINE
 };
@@ -23,9 +23,10 @@ struct statement_val
 {
     char *label;
     struct sig_expr **sig_exprs;
+    int sig_expr_count;
 };
 
-struct statement_addr
+struct statement_label
 {
     char *label;
 };
@@ -48,7 +49,7 @@ struct ast_node
     
     struct program *program;
     struct statement_val *statement_val;
-    struct statement_addr *statement_addr;
+    struct statement_label *statement_label;
     struct sig_expr *sig_expr;
     struct sig_line *sig_line;
 };

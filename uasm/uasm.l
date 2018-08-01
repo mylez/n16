@@ -6,7 +6,7 @@
 
 
 "%"[_a-zA-Z0-9]+        { yylval.text = strdup(yytext); return SIG_VAL; }
-"@"[_a-zA-Z0-9]+        { yylval.text = strdup(yytext); return SIG_ADDR; }
+"@"[_a-zA-Z0-9]+        { yylval.text = strdup(yytext); return SIG_LABEL; }
 [_A-Z]+                 { return SIG_LINE; }
 ":"                     { return COLON; }
 ";"                     { return SEMI_COLON; }

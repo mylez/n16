@@ -14,7 +14,7 @@ Terminals which are not used
 Useless rules
 
    10 label: SIG_VAL
-   11      | SIG_ADDR
+   11      | SIG_LABEL
 
 
 Grammar
@@ -24,7 +24,7 @@ Grammar
     1 program: statement
     2        | program statement
 
-    3 statement: SIG_ADDR COLON
+    3 statement: SIG_LABEL COLON
     4          | SIG_VAL COLON sig_expr SEMI_COLON
     5          | sig_expr SEMI_COLON
 
@@ -40,7 +40,7 @@ Terminals, with rules where they appear
 $end (0) 0
 error (256)
 SIG_VAL (258) 4
-SIG_ADDR (259) 3
+SIG_LABEL (259) 3
 SIG_LINE (260) 8
 COLON (261) 3 4
 SEMI_COLON (262) 4 5
@@ -70,10 +70,10 @@ state 0
 
     0 $accept: . program $end
 
-    SIG_VAL   shift, and go to state 1
-    SIG_ADDR  shift, and go to state 2
-    SIG_LINE  shift, and go to state 3
-    TILDE     shift, and go to state 4
+    SIG_VAL    shift, and go to state 1
+    SIG_LABEL  shift, and go to state 2
+    SIG_LINE   shift, and go to state 3
+    TILDE      shift, and go to state 4
 
     program    go to state 5
     statement  go to state 6
@@ -90,7 +90,7 @@ state 1
 
 state 2
 
-    3 statement: SIG_ADDR . COLON
+    3 statement: SIG_LABEL . COLON
 
     COLON  shift, and go to state 10
 
@@ -117,11 +117,11 @@ state 5
     0 $accept: program . $end
     2 program: program . statement
 
-    $end      shift, and go to state 12
-    SIG_VAL   shift, and go to state 1
-    SIG_ADDR  shift, and go to state 2
-    SIG_LINE  shift, and go to state 3
-    TILDE     shift, and go to state 4
+    $end       shift, and go to state 12
+    SIG_VAL    shift, and go to state 1
+    SIG_LABEL  shift, and go to state 2
+    SIG_LINE   shift, and go to state 3
+    TILDE      shift, and go to state 4
 
     statement  go to state 13
     sig_expr   go to state 7
@@ -164,7 +164,7 @@ state 9
 
 state 10
 
-    3 statement: SIG_ADDR COLON .
+    3 statement: SIG_LABEL COLON .
 
     $default  reduce using rule 3 (statement)
 

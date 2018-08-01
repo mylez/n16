@@ -67,7 +67,7 @@
       know about them.  */
    enum yytokentype {
      SIG_VAL = 258,
-     SIG_ADDR = 259,
+     SIG_LABEL = 259,
      SIG_LINE = 260,
      COLON = 261,
      SEMI_COLON = 262,
@@ -81,7 +81,7 @@
 #endif
 /* Tokens.  */
 #define SIG_VAL 258
-#define SIG_ADDR 259
+#define SIG_LABEL 259
 #define SIG_LINE 260
 #define COLON 261
 #define SEMI_COLON 262
@@ -442,7 +442,7 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "SIG_VAL", "SIG_ADDR", "SIG_LINE",
+  "$end", "error", "$undefined", "SIG_VAL", "SIG_LABEL", "SIG_LINE",
   "COLON", "SEMI_COLON", "COMMA", "LPAREN", "RPAREN", "TILDE",
   "NUMBER_DEC", "NUMBER_HEX", "$accept", "program", "statement",
   "sig_expr", "sig_line", 0
@@ -1367,9 +1367,9 @@ yyreduce:
 #line 46 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
-    (yyval.node)->statement_addr = malloc(sizeof(struct statement_addr));
-    (yyval.node)->node_type = T_STATEMENT_ADDR;
-    (yyval.node)->statement_addr->label = (yyvsp[(1) - (2)].text);
+    (yyval.node)->statement_label = malloc(sizeof(struct statement_label));
+    (yyval.node)->node_type = T_STATEMENT_LABEL;
+    (yyval.node)->statement_label->label = (yyvsp[(1) - (2)].text);
 ;}
     break;
 
@@ -1388,7 +1388,7 @@ yyreduce:
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_STATEMENT_VAL;
-    (yyval.node)->statement_val = malloc(sizeof(struct statement_addr));
+    (yyval.node)->statement_val = malloc(sizeof(struct statement_label));
     (yyval.node)->statement_val->label = NULL;
 ;}
     break;
@@ -1656,7 +1656,7 @@ int main(int argc, char **argv)
     int res = yyparse(); 
     printf("%s\n", res ? "failure" : "success");
    
-    const int signal_bus_width = 0x100;
+    const int signal_bus_width = 40;
     bool signal_rom[0x100][signal_bus_width];
 
     int uc_addr = 0;
@@ -1670,8 +1670,8 @@ int main(int argc, char **argv)
             label = n->statement_val->label;
             uc_addr += 1;
             break;
-        case T_STATEMENT_ADDR:
-            label = n->statement_addr->label;
+        case T_STATEMENT_LABEL:
+            label = n->statement_label->label;
             break;
         default:
             break;

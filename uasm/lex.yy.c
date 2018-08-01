@@ -746,7 +746,7 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 9 "uasm.l"
-{ yylval.text = strdup(yytext); return SIG_ADDR; }
+{ yylval.text = strdup(yytext); return SIG_LABEL; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
