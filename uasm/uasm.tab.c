@@ -74,7 +74,9 @@
      COMMA = 263,
      LPAREN = 264,
      RPAREN = 265,
-     TILDE = 266
+     TILDE = 266,
+     NUMBER_DEC = 267,
+     NUMBER_HEX = 268
    };
 #endif
 /* Tokens.  */
@@ -87,6 +89,8 @@
 #define LPAREN 264
 #define RPAREN 265
 #define TILDE 266
+#define NUMBER_DEC 267
+#define NUMBER_HEX 268
 
 
 
@@ -130,7 +134,7 @@ typedef union YYSTYPE
     char *text;
 }
 /* Line 193 of yacc.c.  */
-#line 134 "uasm.tab.c"
+#line 138 "uasm.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -143,7 +147,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 147 "uasm.tab.c"
+#line 151 "uasm.tab.c"
 
 #ifdef short
 # undef short
@@ -361,7 +365,7 @@ union yyalloc
 #define YYLAST   21
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  12
+#define YYNTOKENS  14
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
@@ -371,7 +375,7 @@ union yyalloc
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   266
+#define YYMAXUTOK   268
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -405,7 +409,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11
+       5,     6,     7,     8,     9,    10,    11,    12,    13
 };
 
 #if YYDEBUG
@@ -420,16 +424,16 @@ static const yytype_uint8 yyprhs[] =
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      13,     0,    -1,    14,    -1,    13,    14,    -1,     4,     6,
-      -1,     3,     6,    15,     7,    -1,    15,     7,    -1,    16,
-      -1,    15,     8,    16,    -1,     5,    -1,    11,    16,    -1
+      15,     0,    -1,    16,    -1,    15,    16,    -1,     4,     6,
+      -1,     3,     6,    17,     7,    -1,    17,     7,    -1,    18,
+      -1,    17,     8,    18,    -1,     5,    -1,    11,    18,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    26,    26,    36,    44,    51,    58,    68,    77,    85,
-      93
+       0,    26,    26,    36,    45,    52,    59,    69,    78,    86,
+      94
 };
 #endif
 
@@ -439,8 +443,9 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "SIG_VAL", "SIG_ADDR", "SIG_LINE",
-  "COLON", "SEMI_COLON", "COMMA", "LPAREN", "RPAREN", "TILDE", "$accept",
-  "program", "statement", "sig_expr", "sig_line", 0
+  "COLON", "SEMI_COLON", "COMMA", "LPAREN", "RPAREN", "TILDE",
+  "NUMBER_DEC", "NUMBER_HEX", "$accept", "program", "statement",
+  "sig_expr", "sig_line", 0
 };
 #endif
 
@@ -450,15 +455,15 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266
+     265,   266,   267,   268
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    12,    13,    13,    14,    14,    14,    15,    15,    16,
-      16
+       0,    14,    15,    15,    16,    16,    16,    17,    17,    18,
+      18
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -521,8 +526,8 @@ static const yytype_int8 yycheck[] =
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     4,     5,    11,    13,    14,    15,    16,     6,
-       6,    16,     0,    14,     7,     8,    15,    16,     7
+       0,     3,     4,     5,    11,    15,    16,    17,    18,     6,
+       6,    18,     0,    16,     7,     8,    17,    18,     7
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1339,13 +1344,13 @@ yyreduce:
         case 2:
 #line 27 "uasm.y"
     {
+    printf("creating program: %p\n", (yyval.node));
+
     ast_root = malloc(sizeof(struct ast_node));
     ast_root->program = malloc(sizeof(struct program *));
     ast_root->program->statements = malloc(64*sizeof(struct ast_node *));
     ast_root->program->statement_count = 1;
     ast_root->program->statements[0] = (yyvsp[(1) - (1)].node);
-
-    printf("creating program: %p\n", (yyval.node));
 ;}
     break;
 
@@ -1353,12 +1358,13 @@ yyreduce:
 #line 37 "uasm.y"
     { 
     printf("adding statement %p: to program: %p\n",(yyvsp[(2) - (2)].node), ast_root);
+    
     ast_root->program->statements[ast_root->program->statement_count++] = (yyvsp[(2) - (2)].node);
 ;}
     break;
 
   case 4:
-#line 45 "uasm.y"
+#line 46 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->statement_addr = malloc(sizeof(struct statement_addr));
@@ -1368,7 +1374,7 @@ yyreduce:
     break;
 
   case 5:
-#line 52 "uasm.y"
+#line 53 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->statement_val = malloc(sizeof(struct statement_val));
@@ -1378,7 +1384,7 @@ yyreduce:
     break;
 
   case 6:
-#line 59 "uasm.y"
+#line 60 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_STATEMENT_VAL;
@@ -1388,7 +1394,7 @@ yyreduce:
     break;
 
   case 7:
-#line 69 "uasm.y"
+#line 70 "uasm.y"
     { 
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_SIG_EXPR;
@@ -1400,7 +1406,7 @@ yyreduce:
     break;
 
   case 8:
-#line 78 "uasm.y"
+#line 79 "uasm.y"
     {
     (yyval.node) = (yyvsp[(1) - (3)].node);
     (yyval.node)->sig_expr->sig_lines[(yyval.node)->sig_expr->sig_line_count++] = (yyvsp[(3) - (3)].node);
@@ -1408,7 +1414,7 @@ yyreduce:
     break;
 
   case 9:
-#line 86 "uasm.y"
+#line 87 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_SIG_LINE;
@@ -1419,7 +1425,7 @@ yyreduce:
     break;
 
   case 10:
-#line 94 "uasm.y"
+#line 95 "uasm.y"
     {
     (yyval.node) = (yyvsp[(2) - (2)].node); 
     (yyval.node)->sig_line->inverted = !(yyval.node)->sig_line->inverted;
@@ -1428,7 +1434,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1432 "uasm.tab.c"
+#line 1438 "uasm.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1642,7 +1648,7 @@ yyreturn:
 }
 
 
-#line 105 "uasm.y"
+#line 106 "uasm.y"
 
 
 int main(int argc, char **argv)

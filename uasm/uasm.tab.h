@@ -47,7 +47,9 @@
      COMMA = 263,
      LPAREN = 264,
      RPAREN = 265,
-     TILDE = 266
+     TILDE = 266,
+     NUMBER_DEC = 267,
+     NUMBER_HEX = 268
    };
 #endif
 /* Tokens.  */
@@ -60,6 +62,8 @@
 #define LPAREN 264
 #define RPAREN 265
 #define TILDE 266
+#define NUMBER_DEC 267
+#define NUMBER_HEX 268
 
 
 
@@ -72,7 +76,7 @@ typedef union YYSTYPE
     char *text;
 }
 /* Line 1529 of yacc.c.  */
-#line 76 "uasm.tab.h"
+#line 80 "uasm.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

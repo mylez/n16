@@ -10,7 +10,7 @@ struct ast_node *ast_root;
 %}
 
 %token SIG_VAL SIG_ADDR SIG_LINE
-%token COLON SEMI_COLON COMMA LPAREN RPAREN TILDE
+%token COLON SEMI_COLON COMMA LPAREN RPAREN TILDE NUMBER_DEC NUMBER_HEX
 
 %union
 {
@@ -42,7 +42,7 @@ program
 ;
 
 statement
-: SIG_ADDR COLON                           
+: SIG_ADDR COLON
 {
     $$ = malloc(sizeof(struct ast_node));
     $$->statement_addr = malloc(sizeof(struct statement_addr));

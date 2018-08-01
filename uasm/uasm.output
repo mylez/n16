@@ -7,6 +7,8 @@ Terminals which are not used
 
    LPAREN
    RPAREN
+   NUMBER_DEC
+   NUMBER_HEX
 
 
 Useless rules
@@ -46,19 +48,21 @@ COMMA (263) 7
 LPAREN (264)
 RPAREN (265)
 TILDE (266) 9
+NUMBER_DEC (267)
+NUMBER_HEX (268)
 
 
 Nonterminals, with rules where they appear
 
-$accept (12)
+$accept (14)
     on left: 0
-program (13)
+program (15)
     on left: 1 2, on right: 0 2
-statement (14)
+statement (16)
     on left: 3 4 5, on right: 1 2
-sig_expr (15)
+sig_expr (17)
     on left: 6 7, on right: 4 5 7
-sig_line (16)
+sig_line (18)
     on left: 8 9, on right: 6 7 9
 
 

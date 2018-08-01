@@ -15,6 +15,9 @@
 ")"                     { return RPAREN; }
 "~"                     { return TILDE; }
 
+[1-9][0-9]+             { return NUMBER_DEC; }
+[0][xX][0-9a-fA-F]+     { return NUMBER_HEX; }
+
 [ \t\n]                 {}
 "//".*                  {}
 
