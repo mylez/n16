@@ -4,7 +4,7 @@ uasm: scanner parser
 	cc $(CC_FLAGS) -lfl -o uasm uasm.tab.c lex.yy.c
 
 parser:
-	bison -d uasm.y
+	bison -v -d uasm.y
 
 scanner:
 	flex uasm.l

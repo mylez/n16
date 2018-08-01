@@ -68,12 +68,13 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 13 "uasm.y"
+#line 14 "uasm.y"
 {
+    struct ast_node *node;
     char *text;
 }
 /* Line 1529 of yacc.c.  */
-#line 77 "uasm.tab.h"
+#line 78 "uasm.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

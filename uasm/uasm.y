@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "ast.h"
 
 int yylex();
 void yyerror();
@@ -11,22 +12,21 @@ void yyerror();
 
 %union
 {
+    struct ast_node *node;
     char *text;
 }
-
-%type <text> statement sig_expr
 
 %%
 
 program
-    : 
-    | statement
+//    : 
+    : statement
     | program statement
     ;
 
 statement
-    : SIG_VAL COLON sig_expr SEMI_COLON         { printf("statement: %s with sign_expr: %s\n", $$, $3); }
-    | SIG_ADDR COLON sig_expr SEMI_COLON    
+    : label COLON                               { printf("label\n"); }
+    | sig_expr SEMI_COLON                       { printf("expr\n"); }
     ;
 
 sig_expr
@@ -35,8 +35,8 @@ sig_expr
     ;
 
 sig_line
-    : SIG_LINE
-    | TILDE sig_line
+    : SIG_LINE                                  { printf("signal line\n"); }
+    | TILDE sig_line                            { printf("inverted signal line\n"); }
     ;
 
 label
