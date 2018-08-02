@@ -1,9 +1,9 @@
-Nonterminals useless in grammar
+Useless nonterminals
 
    label
 
 
-Terminals unused in grammar
+Terminals which are not used
 
    LPAREN
    RPAREN
@@ -11,7 +11,7 @@ Terminals unused in grammar
    NUMBER_HEX
 
 
-Rules useless in grammar
+Useless rules
 
    11 label: SIG_VAL
    12      | SIG_LABEL
@@ -67,7 +67,7 @@ sig_line (18)
     on left: 8 9 10, on right: 6 7 10
 
 
-State 0
+state 0
 
     0 $accept: . program $end
 
@@ -82,7 +82,7 @@ State 0
     sig_line   go to state 8
 
 
-State 1
+state 1
 
     4 statement: SIG_VAL . COLON sig_expr SEMI_COLON
     9 sig_line: SIG_VAL .
@@ -92,21 +92,21 @@ State 1
     $default  reduce using rule 9 (sig_line)
 
 
-State 2
+state 2
 
     3 statement: SIG_LABEL . COLON
 
     COLON  shift, and go to state 10
 
 
-State 3
+state 3
 
     8 sig_line: SIG_LINE .
 
     $default  reduce using rule 8 (sig_line)
 
 
-State 4
+state 4
 
    10 sig_line: TILDE . sig_line
 
@@ -117,7 +117,7 @@ State 4
     sig_line  go to state 12
 
 
-State 5
+state 5
 
     0 $accept: program . $end
     2 program: program . statement
@@ -133,14 +133,14 @@ State 5
     sig_line   go to state 8
 
 
-State 6
+state 6
 
     1 program: statement .
 
     $default  reduce using rule 1 (program)
 
 
-State 7
+state 7
 
     5 statement: sig_expr . SEMI_COLON
     7 sig_expr: sig_expr . COMMA sig_line
@@ -149,14 +149,14 @@ State 7
     COMMA       shift, and go to state 16
 
 
-State 8
+state 8
 
     6 sig_expr: sig_line .
 
     $default  reduce using rule 6 (sig_expr)
 
 
-State 9
+state 9
 
     4 statement: SIG_VAL COLON . sig_expr SEMI_COLON
 
@@ -168,49 +168,49 @@ State 9
     sig_line  go to state 8
 
 
-State 10
+state 10
 
     3 statement: SIG_LABEL COLON .
 
     $default  reduce using rule 3 (statement)
 
 
-State 11
+state 11
 
     9 sig_line: SIG_VAL .
 
     $default  reduce using rule 9 (sig_line)
 
 
-State 12
+state 12
 
    10 sig_line: TILDE sig_line .
 
     $default  reduce using rule 10 (sig_line)
 
 
-State 13
+state 13
 
     0 $accept: program $end .
 
     $default  accept
 
 
-State 14
+state 14
 
     2 program: program statement .
 
     $default  reduce using rule 2 (program)
 
 
-State 15
+state 15
 
     5 statement: sig_expr SEMI_COLON .
 
     $default  reduce using rule 5 (statement)
 
 
-State 16
+state 16
 
     7 sig_expr: sig_expr COMMA . sig_line
 
@@ -221,7 +221,7 @@ State 16
     sig_line  go to state 18
 
 
-State 17
+state 17
 
     4 statement: SIG_VAL COLON sig_expr . SEMI_COLON
     7 sig_expr: sig_expr . COMMA sig_line
@@ -230,14 +230,14 @@ State 17
     COMMA       shift, and go to state 16
 
 
-State 18
+state 18
 
     7 sig_expr: sig_expr COMMA sig_line .
 
     $default  reduce using rule 7 (sig_expr)
 
 
-State 19
+state 19
 
     4 statement: SIG_VAL COLON sig_expr SEMI_COLON .
 

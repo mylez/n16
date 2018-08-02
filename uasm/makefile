@@ -1,10 +1,10 @@
-uasm: scanner parser
+uasm: uasm.tab.c lex.yy.c
 	cc -ggdb -lfl -o uasm uasm.tab.c lex.yy.c
 
-parser:
+uasm.tab.c uasm.tab.h: uasm.y
 	bison -v -d uasm.y
 
-scanner:
+lex.yy.c: uasm.l
 	flex uasm.l
 
 test: uasm
@@ -14,5 +14,5 @@ run: uasm
 	./uasm
 
 clean:
-	rm lex.yy.c 
+	rm -rf lex.yy.c uasm.output uasm.tab.c uasm.tab.h uasm.dSYM
 
