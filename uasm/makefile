@@ -1,5 +1,5 @@
 uasm: scanner parser
-	cc -g -lfl -o uasm uasm.tab.c lex.yy.c
+	cc -ggdb -lfl -o uasm uasm.tab.c lex.yy.c
 
 parser:
 	bison -v -d uasm.y
