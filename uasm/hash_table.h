@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define HASH_TABLE_SIZE 10
 unsigned long hash_djb2(unsigned char *str)
 {
     unsigned long hash = 5381;

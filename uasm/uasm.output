@@ -1,9 +1,9 @@
-Nonterminals useless in grammar
+Useless nonterminals
 
    label
 
 
-Rules useless in grammar
+Useless rules
 
    16 label: SIG_VAL
    17      | SIG_LABEL
@@ -20,7 +20,7 @@ Grammar
     4          | SIG_VAL opt_direct_addr COLON sig_expr SEMI_COLON
     5          | sig_expr SEMI_COLON
 
-    6 opt_direct_addr: %empty
+    6 opt_direct_addr: /* empty */
     7                | LSQRBRK number RSQRBRK
 
     8 sig_expr: sig_line
@@ -73,7 +73,7 @@ number (23)
     on left: 14 15, on right: 7
 
 
-State 0
+state 0
 
     0 $accept: . program $end
 
@@ -89,7 +89,7 @@ State 0
     sig_line   go to state 9
 
 
-State 1
+state 1
 
     4 statement: SIG_VAL . opt_direct_addr COLON sig_expr SEMI_COLON
    11 sig_line: SIG_VAL .
@@ -102,7 +102,7 @@ State 1
     opt_direct_addr  go to state 11
 
 
-State 2
+state 2
 
     3 statement: SIG_LABEL . opt_direct_addr COLON
 
@@ -113,21 +113,21 @@ State 2
     opt_direct_addr  go to state 12
 
 
-State 3
+state 3
 
    10 sig_line: SIG_LINE .
 
     $default  reduce using rule 10 (sig_line)
 
 
-State 4
+state 4
 
    12 sig_line: BRANCH . LPAREN SIG_LABEL COMMA SIG_LABEL RPAREN
 
     LPAREN  shift, and go to state 13
 
 
-State 5
+state 5
 
    13 sig_line: TILDE . sig_line
 
@@ -139,7 +139,7 @@ State 5
     sig_line  go to state 15
 
 
-State 6
+state 6
 
     0 $accept: program . $end
     2 program: program . statement
@@ -156,14 +156,14 @@ State 6
     sig_line   go to state 9
 
 
-State 7
+state 7
 
     1 program: statement .
 
     $default  reduce using rule 1 (program)
 
 
-State 8
+state 8
 
     5 statement: sig_expr . SEMI_COLON
     9 sig_expr: sig_expr . COMMA sig_line
@@ -172,14 +172,14 @@ State 8
     COMMA       shift, and go to state 19
 
 
-State 9
+state 9
 
     8 sig_expr: sig_line .
 
     $default  reduce using rule 8 (sig_expr)
 
 
-State 10
+state 10
 
     7 opt_direct_addr: LSQRBRK . number RSQRBRK
 
@@ -189,63 +189,63 @@ State 10
     number  go to state 22
 
 
-State 11
+state 11
 
     4 statement: SIG_VAL opt_direct_addr . COLON sig_expr SEMI_COLON
 
     COLON  shift, and go to state 23
 
 
-State 12
+state 12
 
     3 statement: SIG_LABEL opt_direct_addr . COLON
 
     COLON  shift, and go to state 24
 
 
-State 13
+state 13
 
    12 sig_line: BRANCH LPAREN . SIG_LABEL COMMA SIG_LABEL RPAREN
 
     SIG_LABEL  shift, and go to state 25
 
 
-State 14
+state 14
 
    11 sig_line: SIG_VAL .
 
     $default  reduce using rule 11 (sig_line)
 
 
-State 15
+state 15
 
    13 sig_line: TILDE sig_line .
 
     $default  reduce using rule 13 (sig_line)
 
 
-State 16
+state 16
 
     0 $accept: program $end .
 
     $default  accept
 
 
-State 17
+state 17
 
     2 program: program statement .
 
     $default  reduce using rule 2 (program)
 
 
-State 18
+state 18
 
     5 statement: sig_expr SEMI_COLON .
 
     $default  reduce using rule 5 (statement)
 
 
-State 19
+state 19
 
     9 sig_expr: sig_expr COMMA . sig_line
 
@@ -257,28 +257,28 @@ State 19
     sig_line  go to state 26
 
 
-State 20
+state 20
 
    14 number: NUMBER_DEC .
 
     $default  reduce using rule 14 (number)
 
 
-State 21
+state 21
 
    15 number: NUMBER_HEX .
 
     $default  reduce using rule 15 (number)
 
 
-State 22
+state 22
 
     7 opt_direct_addr: LSQRBRK number . RSQRBRK
 
     RSQRBRK  shift, and go to state 27
 
 
-State 23
+state 23
 
     4 statement: SIG_VAL opt_direct_addr COLON . sig_expr SEMI_COLON
 
@@ -291,35 +291,35 @@ State 23
     sig_line  go to state 9
 
 
-State 24
+state 24
 
     3 statement: SIG_LABEL opt_direct_addr COLON .
 
     $default  reduce using rule 3 (statement)
 
 
-State 25
+state 25
 
    12 sig_line: BRANCH LPAREN SIG_LABEL . COMMA SIG_LABEL RPAREN
 
     COMMA  shift, and go to state 29
 
 
-State 26
+state 26
 
     9 sig_expr: sig_expr COMMA sig_line .
 
     $default  reduce using rule 9 (sig_expr)
 
 
-State 27
+state 27
 
     7 opt_direct_addr: LSQRBRK number RSQRBRK .
 
     $default  reduce using rule 7 (opt_direct_addr)
 
 
-State 28
+state 28
 
     4 statement: SIG_VAL opt_direct_addr COLON sig_expr . SEMI_COLON
     9 sig_expr: sig_expr . COMMA sig_line
@@ -328,28 +328,28 @@ State 28
     COMMA       shift, and go to state 19
 
 
-State 29
+state 29
 
    12 sig_line: BRANCH LPAREN SIG_LABEL COMMA . SIG_LABEL RPAREN
 
     SIG_LABEL  shift, and go to state 31
 
 
-State 30
+state 30
 
     4 statement: SIG_VAL opt_direct_addr COLON sig_expr SEMI_COLON .
 
     $default  reduce using rule 4 (statement)
 
 
-State 31
+state 31
 
    12 sig_line: BRANCH LPAREN SIG_LABEL COMMA SIG_LABEL . RPAREN
 
     RPAREN  shift, and go to state 32
 
 
-State 32
+state 32
 
    12 sig_line: BRANCH LPAREN SIG_LABEL COMMA SIG_LABEL RPAREN .
 
