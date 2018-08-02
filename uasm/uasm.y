@@ -85,11 +85,19 @@ sig_expr
 sig_line
 : SIG_LINE 
 {
+    printf("SIG_LINE\n");
     $$ = malloc(sizeof(struct ast_node));
     $$->node_type = T_SIG_LINE;
     $$->sig_line = malloc(sizeof(struct sig_line));
     $$->sig_line->inverted = 0;
-    $$->sig_line->label = strdup($1);
+    $$->sig_line->label = $1;
+}
+| SIG_VAL
+{
+    $$ = malloc(sizeof(struct ast_node));
+    $$->node_type = T_SIG_LINE;
+    $$->sig_line = malloc(sizeof(struct sig_line)); 
+    $$->sig_line->label = $1;
 }
 | TILDE sig_line                        
 {

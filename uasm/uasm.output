@@ -1,9 +1,9 @@
-Useless nonterminals
+Nonterminals useless in grammar
 
    label
 
 
-Terminals which are not used
+Terminals unused in grammar
 
    LPAREN
    RPAREN
@@ -11,10 +11,10 @@ Terminals which are not used
    NUMBER_HEX
 
 
-Useless rules
+Rules useless in grammar
 
-   10 label: SIG_VAL
-   11      | SIG_LABEL
+   11 label: SIG_VAL
+   12      | SIG_LABEL
 
 
 Grammar
@@ -32,14 +32,15 @@ Grammar
     7         | sig_expr COMMA sig_line
 
     8 sig_line: SIG_LINE
-    9         | TILDE sig_line
+    9         | SIG_VAL
+   10         | TILDE sig_line
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-SIG_VAL (258) 4
+SIG_VAL (258) 4 9
 SIG_LABEL (259) 3
 SIG_LINE (260) 8
 COLON (261) 3 4
@@ -47,7 +48,7 @@ SEMI_COLON (262) 4 5
 COMMA (263) 7
 LPAREN (264)
 RPAREN (265)
-TILDE (266) 9
+TILDE (266) 10
 NUMBER_DEC (267)
 NUMBER_HEX (268)
 
@@ -63,10 +64,10 @@ statement (16)
 sig_expr (17)
     on left: 6 7, on right: 4 5 7
 sig_line (18)
-    on left: 8 9, on right: 6 7 9
+    on left: 8 9 10, on right: 6 7 10
 
 
-state 0
+State 0
 
     0 $accept: . program $end
 
@@ -81,149 +82,162 @@ state 0
     sig_line   go to state 8
 
 
-state 1
+State 1
 
     4 statement: SIG_VAL . COLON sig_expr SEMI_COLON
+    9 sig_line: SIG_VAL .
 
     COLON  shift, and go to state 9
 
+    $default  reduce using rule 9 (sig_line)
 
-state 2
+
+State 2
 
     3 statement: SIG_LABEL . COLON
 
     COLON  shift, and go to state 10
 
 
-state 3
+State 3
 
     8 sig_line: SIG_LINE .
 
     $default  reduce using rule 8 (sig_line)
 
 
-state 4
+State 4
 
-    9 sig_line: TILDE . sig_line
+   10 sig_line: TILDE . sig_line
 
+    SIG_VAL   shift, and go to state 11
     SIG_LINE  shift, and go to state 3
     TILDE     shift, and go to state 4
 
-    sig_line  go to state 11
+    sig_line  go to state 12
 
 
-state 5
+State 5
 
     0 $accept: program . $end
     2 program: program . statement
 
-    $end       shift, and go to state 12
+    $end       shift, and go to state 13
     SIG_VAL    shift, and go to state 1
     SIG_LABEL  shift, and go to state 2
     SIG_LINE   shift, and go to state 3
     TILDE      shift, and go to state 4
 
-    statement  go to state 13
+    statement  go to state 14
     sig_expr   go to state 7
     sig_line   go to state 8
 
 
-state 6
+State 6
 
     1 program: statement .
 
     $default  reduce using rule 1 (program)
 
 
-state 7
+State 7
 
     5 statement: sig_expr . SEMI_COLON
     7 sig_expr: sig_expr . COMMA sig_line
 
-    SEMI_COLON  shift, and go to state 14
-    COMMA       shift, and go to state 15
+    SEMI_COLON  shift, and go to state 15
+    COMMA       shift, and go to state 16
 
 
-state 8
+State 8
 
     6 sig_expr: sig_line .
 
     $default  reduce using rule 6 (sig_expr)
 
 
-state 9
+State 9
 
     4 statement: SIG_VAL COLON . sig_expr SEMI_COLON
 
+    SIG_VAL   shift, and go to state 11
     SIG_LINE  shift, and go to state 3
     TILDE     shift, and go to state 4
 
-    sig_expr  go to state 16
+    sig_expr  go to state 17
     sig_line  go to state 8
 
 
-state 10
+State 10
 
     3 statement: SIG_LABEL COLON .
 
     $default  reduce using rule 3 (statement)
 
 
-state 11
+State 11
 
-    9 sig_line: TILDE sig_line .
+    9 sig_line: SIG_VAL .
 
     $default  reduce using rule 9 (sig_line)
 
 
-state 12
+State 12
+
+   10 sig_line: TILDE sig_line .
+
+    $default  reduce using rule 10 (sig_line)
+
+
+State 13
 
     0 $accept: program $end .
 
     $default  accept
 
 
-state 13
+State 14
 
     2 program: program statement .
 
     $default  reduce using rule 2 (program)
 
 
-state 14
+State 15
 
     5 statement: sig_expr SEMI_COLON .
 
     $default  reduce using rule 5 (statement)
 
 
-state 15
+State 16
 
     7 sig_expr: sig_expr COMMA . sig_line
 
+    SIG_VAL   shift, and go to state 11
     SIG_LINE  shift, and go to state 3
     TILDE     shift, and go to state 4
 
-    sig_line  go to state 17
+    sig_line  go to state 18
 
 
-state 16
+State 17
 
     4 statement: SIG_VAL COLON sig_expr . SEMI_COLON
     7 sig_expr: sig_expr . COMMA sig_line
 
-    SEMI_COLON  shift, and go to state 18
-    COMMA       shift, and go to state 15
+    SEMI_COLON  shift, and go to state 19
+    COMMA       shift, and go to state 16
 
 
-state 17
+State 18
 
     7 sig_expr: sig_expr COMMA sig_line .
 
     $default  reduce using rule 7 (sig_expr)
 
 
-state 18
+State 19
 
     4 statement: SIG_VAL COLON sig_expr SEMI_COLON .
 
