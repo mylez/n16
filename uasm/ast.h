@@ -54,4 +54,6 @@ struct ast_node
     struct sig_line *sig_line;
 };
 
+struct ast_node *get_ast_root();
+
 #endif

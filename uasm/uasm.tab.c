@@ -433,8 +433,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    26,    26,    36,    45,    52,    59,    69,    78,    86,
-      95,   102
+       0,    27,    27,    37,    46,    53,    60,    70,    79,    87,
+      96,   103
 };
 #endif
 
@@ -1343,7 +1343,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 27 "uasm.y"
+#line 28 "uasm.y"
     {
     printf("creating program: %p\n", (yyval.node));
 
@@ -1356,7 +1356,7 @@ yyreduce:
     break;
 
   case 3:
-#line 37 "uasm.y"
+#line 38 "uasm.y"
     { 
     printf("adding statement %p: to program: %p\n",(yyvsp[(2) - (2)].node), ast_root);
     
@@ -1365,7 +1365,7 @@ yyreduce:
     break;
 
   case 4:
-#line 46 "uasm.y"
+#line 47 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->statement_label = malloc(sizeof(struct statement_label));
@@ -1375,7 +1375,7 @@ yyreduce:
     break;
 
   case 5:
-#line 53 "uasm.y"
+#line 54 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->statement_val = malloc(sizeof(struct statement_val));
@@ -1385,7 +1385,7 @@ yyreduce:
     break;
 
   case 6:
-#line 60 "uasm.y"
+#line 61 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_STATEMENT_VAL;
@@ -1395,7 +1395,7 @@ yyreduce:
     break;
 
   case 7:
-#line 70 "uasm.y"
+#line 71 "uasm.y"
     { 
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_SIG_EXPR;
@@ -1407,7 +1407,7 @@ yyreduce:
     break;
 
   case 8:
-#line 79 "uasm.y"
+#line 80 "uasm.y"
     {
     (yyval.node) = (yyvsp[(1) - (3)].node);
     (yyval.node)->sig_expr->sig_lines[(yyval.node)->sig_expr->sig_line_count++] = (yyvsp[(3) - (3)].node);
@@ -1415,7 +1415,7 @@ yyreduce:
     break;
 
   case 9:
-#line 87 "uasm.y"
+#line 88 "uasm.y"
     {
     printf("SIG_LINE\n");
     (yyval.node) = malloc(sizeof(struct ast_node));
@@ -1427,7 +1427,7 @@ yyreduce:
     break;
 
   case 10:
-#line 96 "uasm.y"
+#line 97 "uasm.y"
     {
     (yyval.node) = malloc(sizeof(struct ast_node));
     (yyval.node)->node_type = T_SIG_LINE;
@@ -1437,7 +1437,7 @@ yyreduce:
     break;
 
   case 11:
-#line 103 "uasm.y"
+#line 104 "uasm.y"
     {
     (yyval.node) = (yyvsp[(2) - (2)].node); 
     (yyval.node)->sig_line->inverted = !(yyval.node)->sig_line->inverted;
@@ -1660,9 +1660,10 @@ yyreturn:
 }
 
 
-#line 114 "uasm.y"
+#line 115 "uasm.y"
 
 
+/*
 int main(int argc, char **argv)
 {
     int res = yyparse(); 
@@ -1693,6 +1694,7 @@ int main(int argc, char **argv)
     }
     return res;
 }
+*/
 
 void yyerror(char *s)
 {

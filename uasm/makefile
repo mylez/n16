@@ -1,5 +1,5 @@
-uasm: uasm.tab.c lex.yy.c
-	cc -ggdb -lfl -o uasm uasm.tab.c lex.yy.c
+uasm: uasm.tab.c lex.yy.c uasm.c ast.c
+	cc -ggdb -lfl -o uasm uasm.tab.c lex.yy.c ast.c uasm.c
 
 uasm.tab.c uasm.tab.h: uasm.y
 	bison -v -d uasm.y

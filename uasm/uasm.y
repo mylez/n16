@@ -17,6 +17,7 @@ struct ast_node *ast_root;
     struct ast_node *node;
     char *text;
 }
+
 %type <node> program sig_line sig_expr statement
 %type <text> SIG_LINE SIG_LABEL SIG_VAL COLON
 
@@ -113,6 +114,7 @@ label
 
 %%
 
+/*
 int main(int argc, char **argv)
 {
     int res = yyparse(); 
@@ -143,6 +145,7 @@ int main(int argc, char **argv)
     }
     return res;
 }
+*/
 
 void yyerror(char *s)
 {
