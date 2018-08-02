@@ -44,7 +44,7 @@ program
 ;
 
 statement
-: SIG_LABEL COLON
+: SIG_LABEL opt_direct_addr COLON
 {
     $$ = malloc(sizeof(struct ast_node));
     $$->statement_label = malloc(sizeof(struct statement_label));
