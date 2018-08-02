@@ -4,13 +4,14 @@
 #include "ast.h"
 
 int yylex();
-void yyerror();
+void yyerror(char *);
 
 struct ast_node *ast_root;
 %}
 
-%token SIG_VAL SIG_LABEL SIG_LINE
-%token COLON SEMI_COLON COMMA LPAREN RPAREN TILDE NUMBER_DEC NUMBER_HEX
+%token SIG_VAL SIG_LABEL SIG_LINE BRANCH
+%token COLON SEMI_COLON COMMA LPAREN LSQRBRK RSQRBRK
+%token RPAREN TILDE NUMBER_DEC NUMBER_HEX
 
 %union
 {
@@ -26,7 +27,7 @@ struct ast_node *ast_root;
 program
 : statement                             
 {
-    printf("creating program: %p\n", $$);
+    //printf("creating program: %p\n", $$);
 
     ast_root = malloc(sizeof(struct ast_node));
     ast_root->program = malloc(sizeof(struct program *));
@@ -36,7 +37,7 @@ program
 }
 | program statement                    
 { 
-    printf("adding statement %p: to program: %p\n",$2, ast_root);
+    //printf("adding statement %p: to program: %p\n",$2, ast_root);
     
     ast_root->program->statements[ast_root->program->statement_count++] = $2;
 }
@@ -50,7 +51,7 @@ statement
     $$->node_type = T_STATEMENT_LABEL;
     $$->statement_label->label = $1;
 }
-| SIG_VAL COLON sig_expr SEMI_COLON             
+| SIG_VAL opt_direct_addr COLON sig_expr SEMI_COLON             
 {
     $$ = malloc(sizeof(struct ast_node));
     $$->statement_val = malloc(sizeof(struct statement_val));
@@ -65,6 +66,11 @@ statement
     $$->statement_val->label = NULL;
 }
 ;
+
+opt_direct_addr
+    :
+    | LSQRBRK number RSQRBRK            { printf("you chose an optional direct address\n"); }
+    ;
 
 sig_expr
 : sig_line                              
@@ -86,7 +92,7 @@ sig_expr
 sig_line
 : SIG_LINE 
 {
-    printf("SIG_LINE\n");
+    //printf("SIG_LINE\n");
     $$ = malloc(sizeof(struct ast_node));
     $$->node_type = T_SIG_LINE;
     $$->sig_line = malloc(sizeof(struct sig_line));
@@ -100,6 +106,14 @@ sig_line
     $$->sig_line = malloc(sizeof(struct sig_line)); 
     $$->sig_line->label = $1;
 }
+| BRANCH LPAREN SIG_LABEL COMMA SIG_LABEL RPAREN
+{
+    //printf("i see what you did\n");
+    $$ = malloc(sizeof(struct ast_node));
+    $$->node_type = T_SIG_LINE;
+    $$->sig_line = malloc(sizeof(struct sig_line)); 
+    $$->sig_line->label = strdup("THIS IZ BRANCH");;
+}
 | TILDE sig_line                        
 {
     $$ = $2; 
@@ -112,40 +126,12 @@ label
     | SIG_LABEL
     ;
 
+number
+    : NUMBER_DEC
+    | NUMBER_HEX
+    ;
+
 %%
-
-/*
-int main(int argc, char **argv)
-{
-    int res = yyparse(); 
-    printf("%s\n", res ? "failure" : "success");
-   
-    const int signal_bus_width = 40;
-    bool signal_rom[0x100][signal_bus_width];
-
-    int uc_addr = 0;
-    for (int i = 0; i < ast_root->program->statement_count; i++)
-    {
-        struct ast_node *n = ast_root->program->statements[i];
-        char *label;
-        switch (n->node_type)
-        {
-        case T_STATEMENT_VAL:
-            label = n->statement_val->label;
-            uc_addr += 1;
-            break;
-        case T_STATEMENT_LABEL:
-            label = n->statement_label->label;
-            break;
-        default:
-            break;
-        }
-
-        printf("statement %d: %p %s\n", i, n, label);
-    }
-    return res;
-}
-*/
 
 void yyerror(char *s)
 {

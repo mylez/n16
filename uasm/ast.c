@@ -1,9 +1,15 @@
 #include <stdlib.h>
-#include "uasm.tab.h"
 #include "ast.h"
 
-struct ast_node *get_ast_root()
+extern int yyparse();
+extern struct ast_node *ast_root;
+
+struct ast_node *parse_ast_root()
 {
-    yyparse();
-    return ast_root;
+	if (yyparse() == 0)
+	{
+		return ast_root;
+	}
+
+	return NULL;
 }

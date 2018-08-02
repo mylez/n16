@@ -1,4 +1,4 @@
-%default:
+%default[0x00]:
     EN_INST, EN_IR_0;
 
 %ram_r:
@@ -7,10 +7,11 @@
 @someLabel:
 @anotherLabel:
 @fetch1:
-    EN_INST, EN_IR_0, EN_PC;    // | %ram_r;
+    EN_INST, EN_IR_0, EN_PC, %ram_r;
 
+@fetch2:
 %fetch2: 
-    EN_INST, EN_IR_1, EN_PC;    // | %ram_r;
+    EN_INST, EN_IR_1, EN_PC, %ram_r, branch(@1, @2);
 
 @op_bz:
 @1:
