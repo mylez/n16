@@ -1,356 +1,64 @@
-Useless nonterminals
+Terminals unused in grammar
 
-   label
-
-
-Useless rules
-
-   16 label: SIG_VAL
-   17      | SIG_LABEL
+   NUMBER_HEX
 
 
 Grammar
 
-    0 $accept: program $end
+    0 $accept: pretty $end
 
-    1 program: statement
-    2        | program statement
-
-    3 statement: SIG_LABEL opt_direct_addr COLON
-    4          | SIG_VAL opt_direct_addr COLON sig_expr SEMI_COLON
-    5          | sig_expr SEMI_COLON
-
-    6 opt_direct_addr: /* empty */
-    7                | LSQRBRK number RSQRBRK
-
-    8 sig_expr: sig_line
-    9         | sig_expr COMMA sig_line
-
-   10 sig_line: SIG_LINE
-   11         | SIG_VAL
-   12         | BRANCH LPAREN SIG_LABEL COMMA SIG_LABEL RPAREN
-   13         | TILDE sig_line
-
-   14 number: NUMBER_DEC
-   15       | NUMBER_HEX
+    1 pretty: IDENTIFIER NUMBER_DEC
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-SIG_VAL (258) 4 11
-SIG_LABEL (259) 3 12
-SIG_LINE (260) 10
-BRANCH (261) 12
-COLON (262) 3 4
-SEMI_COLON (263) 4 5
-COMMA (264) 9 12
-LPAREN (265) 12
-LSQRBRK (266) 7
-RSQRBRK (267) 7
-RPAREN (268) 12
-TILDE (269) 13
-NUMBER_DEC (270) 14
-NUMBER_HEX (271) 15
+IDENTIFIER (258) 1
+NUMBER_HEX (259)
+NUMBER_DEC (260) 1
 
 
 Nonterminals, with rules where they appear
 
-$accept (17)
+$accept (6)
     on left: 0
-program (18)
-    on left: 1 2, on right: 0 2
-statement (19)
-    on left: 3 4 5, on right: 1 2
-opt_direct_addr (20)
-    on left: 6 7, on right: 3 4
-sig_expr (21)
-    on left: 8 9, on right: 4 5 9
-sig_line (22)
-    on left: 10 11 12 13, on right: 8 9 13
-number (23)
-    on left: 14 15, on right: 7
+pretty (7)
+    on left: 1, on right: 0
 
 
-state 0
+State 0
 
-    0 $accept: . program $end
+    0 $accept: . pretty $end
 
-    SIG_VAL    shift, and go to state 1
-    SIG_LABEL  shift, and go to state 2
-    SIG_LINE   shift, and go to state 3
-    BRANCH     shift, and go to state 4
-    TILDE      shift, and go to state 5
+    IDENTIFIER  shift, and go to state 1
 
-    program    go to state 6
-    statement  go to state 7
-    sig_expr   go to state 8
-    sig_line   go to state 9
+    pretty  go to state 2
 
 
-state 1
+State 1
 
-    4 statement: SIG_VAL . opt_direct_addr COLON sig_expr SEMI_COLON
-   11 sig_line: SIG_VAL .
+    1 pretty: IDENTIFIER . NUMBER_DEC
 
-    LSQRBRK  shift, and go to state 10
+    NUMBER_DEC  shift, and go to state 3
 
-    COLON     reduce using rule 6 (opt_direct_addr)
-    $default  reduce using rule 11 (sig_line)
 
-    opt_direct_addr  go to state 11
+State 2
 
+    0 $accept: pretty . $end
 
-state 2
+    $end  shift, and go to state 4
 
-    3 statement: SIG_LABEL . opt_direct_addr COLON
 
-    LSQRBRK  shift, and go to state 10
+State 3
 
-    $default  reduce using rule 6 (opt_direct_addr)
+    1 pretty: IDENTIFIER NUMBER_DEC .
 
-    opt_direct_addr  go to state 12
+    $default  reduce using rule 1 (pretty)
 
 
-state 3
+State 4
 
-   10 sig_line: SIG_LINE .
-
-    $default  reduce using rule 10 (sig_line)
-
-
-state 4
-
-   12 sig_line: BRANCH . LPAREN SIG_LABEL COMMA SIG_LABEL RPAREN
-
-    LPAREN  shift, and go to state 13
-
-
-state 5
-
-   13 sig_line: TILDE . sig_line
-
-    SIG_VAL   shift, and go to state 14
-    SIG_LINE  shift, and go to state 3
-    BRANCH    shift, and go to state 4
-    TILDE     shift, and go to state 5
-
-    sig_line  go to state 15
-
-
-state 6
-
-    0 $accept: program . $end
-    2 program: program . statement
-
-    $end       shift, and go to state 16
-    SIG_VAL    shift, and go to state 1
-    SIG_LABEL  shift, and go to state 2
-    SIG_LINE   shift, and go to state 3
-    BRANCH     shift, and go to state 4
-    TILDE      shift, and go to state 5
-
-    statement  go to state 17
-    sig_expr   go to state 8
-    sig_line   go to state 9
-
-
-state 7
-
-    1 program: statement .
-
-    $default  reduce using rule 1 (program)
-
-
-state 8
-
-    5 statement: sig_expr . SEMI_COLON
-    9 sig_expr: sig_expr . COMMA sig_line
-
-    SEMI_COLON  shift, and go to state 18
-    COMMA       shift, and go to state 19
-
-
-state 9
-
-    8 sig_expr: sig_line .
-
-    $default  reduce using rule 8 (sig_expr)
-
-
-state 10
-
-    7 opt_direct_addr: LSQRBRK . number RSQRBRK
-
-    NUMBER_DEC  shift, and go to state 20
-    NUMBER_HEX  shift, and go to state 21
-
-    number  go to state 22
-
-
-state 11
-
-    4 statement: SIG_VAL opt_direct_addr . COLON sig_expr SEMI_COLON
-
-    COLON  shift, and go to state 23
-
-
-state 12
-
-    3 statement: SIG_LABEL opt_direct_addr . COLON
-
-    COLON  shift, and go to state 24
-
-
-state 13
-
-   12 sig_line: BRANCH LPAREN . SIG_LABEL COMMA SIG_LABEL RPAREN
-
-    SIG_LABEL  shift, and go to state 25
-
-
-state 14
-
-   11 sig_line: SIG_VAL .
-
-    $default  reduce using rule 11 (sig_line)
-
-
-state 15
-
-   13 sig_line: TILDE sig_line .
-
-    $default  reduce using rule 13 (sig_line)
-
-
-state 16
-
-    0 $accept: program $end .
+    0 $accept: pretty $end .
 
     $default  accept
-
-
-state 17
-
-    2 program: program statement .
-
-    $default  reduce using rule 2 (program)
-
-
-state 18
-
-    5 statement: sig_expr SEMI_COLON .
-
-    $default  reduce using rule 5 (statement)
-
-
-state 19
-
-    9 sig_expr: sig_expr COMMA . sig_line
-
-    SIG_VAL   shift, and go to state 14
-    SIG_LINE  shift, and go to state 3
-    BRANCH    shift, and go to state 4
-    TILDE     shift, and go to state 5
-
-    sig_line  go to state 26
-
-
-state 20
-
-   14 number: NUMBER_DEC .
-
-    $default  reduce using rule 14 (number)
-
-
-state 21
-
-   15 number: NUMBER_HEX .
-
-    $default  reduce using rule 15 (number)
-
-
-state 22
-
-    7 opt_direct_addr: LSQRBRK number . RSQRBRK
-
-    RSQRBRK  shift, and go to state 27
-
-
-state 23
-
-    4 statement: SIG_VAL opt_direct_addr COLON . sig_expr SEMI_COLON
-
-    SIG_VAL   shift, and go to state 14
-    SIG_LINE  shift, and go to state 3
-    BRANCH    shift, and go to state 4
-    TILDE     shift, and go to state 5
-
-    sig_expr  go to state 28
-    sig_line  go to state 9
-
-
-state 24
-
-    3 statement: SIG_LABEL opt_direct_addr COLON .
-
-    $default  reduce using rule 3 (statement)
-
-
-state 25
-
-   12 sig_line: BRANCH LPAREN SIG_LABEL . COMMA SIG_LABEL RPAREN
-
-    COMMA  shift, and go to state 29
-
-
-state 26
-
-    9 sig_expr: sig_expr COMMA sig_line .
-
-    $default  reduce using rule 9 (sig_expr)
-
-
-state 27
-
-    7 opt_direct_addr: LSQRBRK number RSQRBRK .
-
-    $default  reduce using rule 7 (opt_direct_addr)
-
-
-state 28
-
-    4 statement: SIG_VAL opt_direct_addr COLON sig_expr . SEMI_COLON
-    9 sig_expr: sig_expr . COMMA sig_line
-
-    SEMI_COLON  shift, and go to state 30
-    COMMA       shift, and go to state 19
-
-
-state 29
-
-   12 sig_line: BRANCH LPAREN SIG_LABEL COMMA . SIG_LABEL RPAREN
-
-    SIG_LABEL  shift, and go to state 31
-
-
-state 30
-
-    4 statement: SIG_VAL opt_direct_addr COLON sig_expr SEMI_COLON .
-
-    $default  reduce using rule 4 (statement)
-
-
-state 31
-
-   12 sig_line: BRANCH LPAREN SIG_LABEL COMMA SIG_LABEL . RPAREN
-
-    RPAREN  shift, and go to state 32
-
-
-state 32
-
-   12 sig_line: BRANCH LPAREN SIG_LABEL COMMA SIG_LABEL RPAREN .
-
-    $default  reduce using rule 12 (sig_line)
