@@ -46,8 +46,10 @@ extern int yydebug;
   enum yytokentype
   {
     IDENTIFIER = 258,
-    NUMBER_HEX = 259,
-    NUMBER_DEC = 260
+    LABEL_IDENTIFIER = 259,
+    VALUE_IDENTIFIER = 260,
+    NUMBER_HEX = 261,
+    NUMBER_DEC = 262
   };
 #endif
 
@@ -56,11 +58,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "uasm.y" /* yacc.c:1916  */
+#line 19 "uasm.y" /* yacc.c:1916  */
 
+    class ASTNode *node;
+    class ASTStatement *statement;
     char *text;
+    int intval;
 
-#line 64 "uasm.tab.h" /* yacc.c:1916  */
+#line 69 "uasm.tab.h" /* yacc.c:1916  */
 };
 
 typedef union YYSTYPE YYSTYPE;

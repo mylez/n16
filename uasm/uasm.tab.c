@@ -65,14 +65,18 @@
 #line 1 "uasm.y" /* yacc.c:339  */
 
 #include <iostream>
-#include <stdio.h>
-#include <string.h>
+#include <string>
+#include <vector>
+#include "ast.h"
 
 int yylex();
 void yyerror(char *);
+std::vector<ASTSignalIdentifier *> signalIdentifiersInExpr;
+
+ASTRoot astRoot;
 
 
-#line 76 "uasm.tab.c" /* yacc.c:339  */
+#line 80 "uasm.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -108,8 +112,10 @@ extern int yydebug;
   enum yytokentype
   {
     IDENTIFIER = 258,
-    NUMBER_HEX = 259,
-    NUMBER_DEC = 260
+    LABEL_IDENTIFIER = 259,
+    VALUE_IDENTIFIER = 260,
+    NUMBER_HEX = 261,
+    NUMBER_DEC = 262
   };
 #endif
 
@@ -118,11 +124,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 15 "uasm.y" /* yacc.c:355  */
+#line 19 "uasm.y" /* yacc.c:355  */
 
+    class ASTNode *node;
+    class ASTStatement *statement;
     char *text;
+    int intval;
 
-#line 126 "uasm.tab.c" /* yacc.c:355  */
+#line 135 "uasm.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -139,7 +148,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 143 "uasm.tab.c" /* yacc.c:358  */
+#line 152 "uasm.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -379,23 +388,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  4
+#define YYFINAL  14
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   2
+#define YYLAST   24
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  6
+#define YYNTOKENS  13
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  2
+#define YYNNTS  6
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  2
+#define YYNRULES  13
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  5
+#define YYNSTATES  23
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   260
+#define YYMAXUTOK   262
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -408,9 +417,9 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,    12,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     8,     9,
+      10,     2,    11,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -430,14 +439,15 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5
+       5,     6,     7
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    25,    25
+       0,    36,    36,    43,    50,    56,    62,    68,    74,    78,
+      84,    88,    94,    98
 };
 #endif
 
@@ -446,8 +456,10 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "IDENTIFIER", "NUMBER_HEX", "NUMBER_DEC",
-  "$accept", "pretty", YY_NULLPTR
+  "$end", "error", "$undefined", "IDENTIFIER", "LABEL_IDENTIFIER",
+  "VALUE_IDENTIFIER", "NUMBER_HEX", "NUMBER_DEC", "':'", "';'", "'<'",
+  "'>'", "','", "$accept", "program", "statement", "signal_expr",
+  "signal_identifier", "number", YY_NULLPTR
 };
 #endif
 
@@ -456,14 +468,15 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260
+       0,   256,   257,   258,   259,   260,   261,   262,    58,    59,
+      60,    62,    44
 };
 # endif
 
-#define YYPACT_NINF -5
+#define YYPACT_NINF -6
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-5)))
+  (!!((Yystate) == (-6)))
 
 #define YYTABLE_NINF -1
 
@@ -474,7 +487,9 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,     2,    -5,    -5
+       3,    -6,     1,     4,    -5,     0,    -6,     2,    -6,    -6,
+      14,    -6,    -6,     5,    -6,    -6,    -6,    14,    -6,     6,
+      -6,    -6,    -6
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -482,19 +497,21 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     2,     1
+       0,    10,     0,    11,     0,     0,     2,     0,     8,     4,
+       0,    13,    12,     0,     1,     3,     6,     0,    11,     0,
+       7,     9,     5
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -5,    -5
+      -6,    -6,    15,    11,     7,    -6
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2
+      -1,     5,     6,     7,     8,    13
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -502,31 +519,39 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       1,     3,     4
+      14,    11,    12,     1,     2,     3,     1,     2,     3,     9,
+       4,    16,    10,     4,    17,    22,    20,     1,    17,    18,
+      15,    19,     0,     0,    21
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-       3,     5,     0
+       0,     6,     7,     3,     4,     5,     3,     4,     5,     8,
+      10,     9,     8,    10,    12,     9,    11,     3,    12,     5,
+       5,    10,    -1,    -1,    17
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     7,     5,     0
+       0,     3,     4,     5,    10,    14,    15,    16,    17,     8,
+       8,     6,     7,    18,     0,    15,     9,    12,     5,    16,
+      11,    17,     9
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     6,     7
+       0,    13,    14,    14,    15,    15,    15,    15,    16,    16,
+      17,    17,    18,    18
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2
+       0,     2,     1,     2,     2,     4,     2,     3,     1,     3,
+       1,     1,     1,     1
 };
 
 
@@ -1204,13 +1229,110 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 25 "uasm.y" /* yacc.c:1663  */
-    { std::cout << (yyvsp[-1].text); }
-#line 1210 "uasm.tab.c" /* yacc.c:1663  */
+#line 37 "uasm.y" /* yacc.c:1663  */
+    {
+    std::cout << "first statement encountered\n";
+    std::cout << "clearing sigId\n";
+    signalIdentifiersInExpr.clear();
+    astRoot.statements.push_back((yyvsp[0].statement));
+}
+#line 1240 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 3:
+#line 44 "uasm.y" /* yacc.c:1663  */
+    {
+    signalIdentifiersInExpr.clear();
+    astRoot.statements.push_back((yyvsp[0].statement));
+}
+#line 1249 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 4:
+#line 51 "uasm.y" /* yacc.c:1663  */
+    {
+    std::cout << "label statement\n";
+    (yyval.statement) = new ASTLabelStatement((yyvsp[-1].text));
+}
+#line 1258 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 5:
+#line 57 "uasm.y" /* yacc.c:1663  */
+    {
+    std::cout << "value statement\n";
+    (yyval.statement) = new ASTValueStatement((yyvsp[-3].text), signalIdentifiersInExpr);
+}
+#line 1267 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 6:
+#line 63 "uasm.y" /* yacc.c:1663  */
+    {
+    std::cout << "anonymous statement\n";
+    (yyval.statement) = new ASTValueStatement("", signalIdentifiersInExpr);
+}
+#line 1276 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 7:
+#line 69 "uasm.y" /* yacc.c:1663  */
+    {
+    std::cout << "address literal: " << (yyvsp[-1].intval) << "\n";
+}
+#line 1284 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 8:
+#line 75 "uasm.y" /* yacc.c:1663  */
+    {
+    signalIdentifiersInExpr.push_back(new ASTSignalIdentifier((yyvsp[0].text), ASTSignalIdentifierType::SINGLE_LINE));
+}
+#line 1292 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 9:
+#line 79 "uasm.y" /* yacc.c:1663  */
+    {
+    signalIdentifiersInExpr.push_back(new ASTSignalIdentifier((yyvsp[0].text), ASTSignalIdentifierType::BUS));
+}
+#line 1300 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 10:
+#line 85 "uasm.y" /* yacc.c:1663  */
+    {
+    (yyval.text) = (yyvsp[0].text);
+}
+#line 1308 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 11:
+#line 89 "uasm.y" /* yacc.c:1663  */
+    {
+    (yyval.text) = (yyvsp[0].text);
+}
+#line 1316 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 12:
+#line 95 "uasm.y" /* yacc.c:1663  */
+    {
+    (yyval.intval) = std::stoul((yyvsp[0].text), nullptr, 10);
+}
+#line 1324 "uasm.tab.c" /* yacc.c:1663  */
+    break;
+
+  case 13:
+#line 99 "uasm.y" /* yacc.c:1663  */
+    {
+    (yyval.intval) = std::stoul((yyvsp[0].text), nullptr, 16);
+}
+#line 1332 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
 
-#line 1214 "uasm.tab.c" /* yacc.c:1663  */
+#line 1336 "uasm.tab.c" /* yacc.c:1663  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1438,10 +1560,10 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 27 "uasm.y" /* yacc.c:1907  */
+#line 103 "uasm.y" /* yacc.c:1907  */
 
 
 void yyerror(char *s)
 {
-    fprintf(stderr, "error: %s\n", s);
+    std::cout << "error: " << s << "\n";
 }
