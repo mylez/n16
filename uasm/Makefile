@@ -1,5 +1,5 @@
 uasm: uasm.tab.c lex.yy.c main.cpp
-	g++ -ggdb -lfl -o uasm uasm.tab.c lex.yy.c main.cpp
+	g++ -Wno-deprecated -Wno-c++11-extensions -ggdb -lfl -o uasm uasm.tab.c lex.yy.c main.cpp
 
 uasm.tab.c uasm.tab.h: uasm.y
 	bison -v -d uasm.y

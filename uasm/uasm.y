@@ -28,8 +28,6 @@ ASTRoot astRoot;
 %type <statement>       statement
 %type <intval>          number
 
-
-
 %%
 
 program
@@ -68,6 +66,7 @@ statement
     | '<' number '>'
 {
     std::cout << "address literal: " << $2 << "\n";
+    $$ = new ASTAddressLiteralStatement((uc_address_t)$2);
 };
 
 signal_expr

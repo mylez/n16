@@ -17,6 +17,7 @@ enum ASTStatementType
 {
     LABEL,
     VALUE,
+    ADDRESS_LITERAL,
 };
 
 
@@ -74,13 +75,13 @@ public:
 };
 
 
-class ASTLiteralAddressStatement: public ASTStatement
+class ASTAddressLiteralStatement: public ASTStatement
 {
 public:
-    ASTLiteralAddressStatement()
-    {
-        uc_address_t address;
-    }
+    uc_address_t address;
+    ASTAddressLiteralStatement(uc_address_t address):
+        address(address)
+    {}
 };
 
 

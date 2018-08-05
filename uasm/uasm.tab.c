@@ -446,8 +446,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    36,    36,    43,    50,    56,    62,    68,    74,    78,
-      84,    88,    94,    98
+       0,    34,    34,    41,    48,    54,    60,    66,    73,    77,
+      83,    87,    93,    97
 };
 #endif
 
@@ -1229,7 +1229,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 37 "uasm.y" /* yacc.c:1663  */
+#line 35 "uasm.y" /* yacc.c:1663  */
     {
     std::cout << "first statement encountered\n";
     std::cout << "clearing sigId\n";
@@ -1240,7 +1240,7 @@ yyreduce:
     break;
 
   case 3:
-#line 44 "uasm.y" /* yacc.c:1663  */
+#line 42 "uasm.y" /* yacc.c:1663  */
     {
     signalIdentifiersInExpr.clear();
     astRoot.statements.push_back((yyvsp[0].statement));
@@ -1249,7 +1249,7 @@ yyreduce:
     break;
 
   case 4:
-#line 51 "uasm.y" /* yacc.c:1663  */
+#line 49 "uasm.y" /* yacc.c:1663  */
     {
     std::cout << "label statement\n";
     (yyval.statement) = new ASTLabelStatement((yyvsp[-1].text));
@@ -1258,7 +1258,7 @@ yyreduce:
     break;
 
   case 5:
-#line 57 "uasm.y" /* yacc.c:1663  */
+#line 55 "uasm.y" /* yacc.c:1663  */
     {
     std::cout << "value statement\n";
     (yyval.statement) = new ASTValueStatement((yyvsp[-3].text), signalIdentifiersInExpr);
@@ -1267,7 +1267,7 @@ yyreduce:
     break;
 
   case 6:
-#line 63 "uasm.y" /* yacc.c:1663  */
+#line 61 "uasm.y" /* yacc.c:1663  */
     {
     std::cout << "anonymous statement\n";
     (yyval.statement) = new ASTValueStatement("", signalIdentifiersInExpr);
@@ -1276,63 +1276,64 @@ yyreduce:
     break;
 
   case 7:
-#line 69 "uasm.y" /* yacc.c:1663  */
+#line 67 "uasm.y" /* yacc.c:1663  */
     {
     std::cout << "address literal: " << (yyvsp[-1].intval) << "\n";
+    (yyval.statement) = new ASTAddressLiteralStatement((uc_address_t)(yyvsp[-1].intval));
 }
-#line 1284 "uasm.tab.c" /* yacc.c:1663  */
+#line 1285 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
   case 8:
-#line 75 "uasm.y" /* yacc.c:1663  */
+#line 74 "uasm.y" /* yacc.c:1663  */
     {
     signalIdentifiersInExpr.push_back(new ASTSignalIdentifier((yyvsp[0].text), ASTSignalIdentifierType::SINGLE_LINE));
 }
-#line 1292 "uasm.tab.c" /* yacc.c:1663  */
+#line 1293 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
   case 9:
-#line 79 "uasm.y" /* yacc.c:1663  */
+#line 78 "uasm.y" /* yacc.c:1663  */
     {
     signalIdentifiersInExpr.push_back(new ASTSignalIdentifier((yyvsp[0].text), ASTSignalIdentifierType::BUS));
 }
-#line 1300 "uasm.tab.c" /* yacc.c:1663  */
+#line 1301 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
   case 10:
-#line 85 "uasm.y" /* yacc.c:1663  */
+#line 84 "uasm.y" /* yacc.c:1663  */
     {
     (yyval.text) = (yyvsp[0].text);
 }
-#line 1308 "uasm.tab.c" /* yacc.c:1663  */
+#line 1309 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
   case 11:
-#line 89 "uasm.y" /* yacc.c:1663  */
+#line 88 "uasm.y" /* yacc.c:1663  */
     {
     (yyval.text) = (yyvsp[0].text);
 }
-#line 1316 "uasm.tab.c" /* yacc.c:1663  */
+#line 1317 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
   case 12:
-#line 95 "uasm.y" /* yacc.c:1663  */
+#line 94 "uasm.y" /* yacc.c:1663  */
     {
     (yyval.intval) = std::stoul((yyvsp[0].text), nullptr, 10);
 }
-#line 1324 "uasm.tab.c" /* yacc.c:1663  */
+#line 1325 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
   case 13:
-#line 99 "uasm.y" /* yacc.c:1663  */
+#line 98 "uasm.y" /* yacc.c:1663  */
     {
     (yyval.intval) = std::stoul((yyvsp[0].text), nullptr, 16);
 }
-#line 1332 "uasm.tab.c" /* yacc.c:1663  */
+#line 1333 "uasm.tab.c" /* yacc.c:1663  */
     break;
 
 
-#line 1336 "uasm.tab.c" /* yacc.c:1663  */
+#line 1337 "uasm.tab.c" /* yacc.c:1663  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1560,7 +1561,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 103 "uasm.y" /* yacc.c:1907  */
+#line 102 "uasm.y" /* yacc.c:1907  */
 
 
 void yyerror(char *s)
