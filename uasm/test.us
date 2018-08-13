@@ -1,6 +1,6 @@
 <0>
 @thisShouldBeZero:
-    EN_INST, EN_MC_DEC, MC_DEC_0;
+    EN_INST, EN_MC_DEC, MC_DEC_0, EN_IR, RAM_DAT_SRC_0, RAM_W, RAM_LD;
     EN_INST, EN_MC_DEC, MC_DEC_1;
     branch(@thisOughtaBe234, 234), EN_INST, SEL_ALU;
 
