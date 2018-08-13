@@ -1,0 +1,343 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> root
+Rule 1     root -> statement
+Rule 2     root -> root statement
+Rule 3     statement -> LABEL_ID :
+Rule 4     statement -> signal_expr ;
+Rule 5     statement -> VALUE_ID : signal_expr ;
+Rule 6     statement -> < number >
+Rule 7     signal_expr -> signal
+Rule 8     signal_expr -> signal_expr , signal
+Rule 9     signal -> SIGNAL_ID ( destination , destination )
+Rule 10    signal -> SIGNAL_ID
+Rule 11    destination -> LABEL_ID
+Rule 12    destination -> number
+Rule 13    number -> NUMBER_HEX
+Rule 14    number -> NUMBER_DEC
+
+Terminals, with rules where they appear
+
+(                    : 9
+)                    : 9
+,                    : 8 9
+:                    : 3 5
+;                    : 4 5
+<                    : 6
+>                    : 6
+LABEL_ID             : 3 11
+NUMBER_DEC           : 14
+NUMBER_HEX           : 13
+SIGNAL_ID            : 9 10
+VALUE_ID             : 5
+error                : 
+
+Nonterminals, with rules where they appear
+
+destination          : 9 9
+number               : 6 12
+root                 : 2 0
+signal               : 7 8
+signal_expr          : 4 5 8
+statement            : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . root
+    (1) root -> . statement
+    (2) root -> . root statement
+    (3) statement -> . LABEL_ID :
+    (4) statement -> . signal_expr ;
+    (5) statement -> . VALUE_ID : signal_expr ;
+    (6) statement -> . < number >
+    (7) signal_expr -> . signal
+    (8) signal_expr -> . signal_expr , signal
+    (9) signal -> . SIGNAL_ID ( destination , destination )
+    (10) signal -> . SIGNAL_ID
+
+    LABEL_ID        shift and go to state 3
+    VALUE_ID        shift and go to state 5
+    <               shift and go to state 6
+    SIGNAL_ID       shift and go to state 8
+
+    root                           shift and go to state 1
+    statement                      shift and go to state 2
+    signal_expr                    shift and go to state 4
+    signal                         shift and go to state 7
+
+state 1
+
+    (0) S' -> root .
+    (2) root -> root . statement
+    (3) statement -> . LABEL_ID :
+    (4) statement -> . signal_expr ;
+    (5) statement -> . VALUE_ID : signal_expr ;
+    (6) statement -> . < number >
+    (7) signal_expr -> . signal
+    (8) signal_expr -> . signal_expr , signal
+    (9) signal -> . SIGNAL_ID ( destination , destination )
+    (10) signal -> . SIGNAL_ID
+
+    LABEL_ID        shift and go to state 3
+    VALUE_ID        shift and go to state 5
+    <               shift and go to state 6
+    SIGNAL_ID       shift and go to state 8
+
+    statement                      shift and go to state 9
+    signal_expr                    shift and go to state 4
+    signal                         shift and go to state 7
+
+state 2
+
+    (1) root -> statement .
+
+    LABEL_ID        reduce using rule 1 (root -> statement .)
+    VALUE_ID        reduce using rule 1 (root -> statement .)
+    <               reduce using rule 1 (root -> statement .)
+    SIGNAL_ID       reduce using rule 1 (root -> statement .)
+    $end            reduce using rule 1 (root -> statement .)
+
+
+state 3
+
+    (3) statement -> LABEL_ID . :
+
+    :               shift and go to state 10
+
+
+state 4
+
+    (4) statement -> signal_expr . ;
+    (8) signal_expr -> signal_expr . , signal
+
+    ;               shift and go to state 11
+    ,               shift and go to state 12
+
+
+state 5
+
+    (5) statement -> VALUE_ID . : signal_expr ;
+
+    :               shift and go to state 13
+
+
+state 6
+
+    (6) statement -> < . number >
+    (13) number -> . NUMBER_HEX
+    (14) number -> . NUMBER_DEC
+
+    NUMBER_HEX      shift and go to state 15
+    NUMBER_DEC      shift and go to state 16
+
+    number                         shift and go to state 14
+
+state 7
+
+    (7) signal_expr -> signal .
+
+    ;               reduce using rule 7 (signal_expr -> signal .)
+    ,               reduce using rule 7 (signal_expr -> signal .)
+
+
+state 8
+
+    (9) signal -> SIGNAL_ID . ( destination , destination )
+    (10) signal -> SIGNAL_ID .
+
+    (               shift and go to state 17
+    ;               reduce using rule 10 (signal -> SIGNAL_ID .)
+    ,               reduce using rule 10 (signal -> SIGNAL_ID .)
+
+
+state 9
+
+    (2) root -> root statement .
+
+    LABEL_ID        reduce using rule 2 (root -> root statement .)
+    VALUE_ID        reduce using rule 2 (root -> root statement .)
+    <               reduce using rule 2 (root -> root statement .)
+    SIGNAL_ID       reduce using rule 2 (root -> root statement .)
+    $end            reduce using rule 2 (root -> root statement .)
+
+
+state 10
+
+    (3) statement -> LABEL_ID : .
+
+    LABEL_ID        reduce using rule 3 (statement -> LABEL_ID : .)
+    VALUE_ID        reduce using rule 3 (statement -> LABEL_ID : .)
+    <               reduce using rule 3 (statement -> LABEL_ID : .)
+    SIGNAL_ID       reduce using rule 3 (statement -> LABEL_ID : .)
+    $end            reduce using rule 3 (statement -> LABEL_ID : .)
+
+
+state 11
+
+    (4) statement -> signal_expr ; .
+
+    LABEL_ID        reduce using rule 4 (statement -> signal_expr ; .)
+    VALUE_ID        reduce using rule 4 (statement -> signal_expr ; .)
+    <               reduce using rule 4 (statement -> signal_expr ; .)
+    SIGNAL_ID       reduce using rule 4 (statement -> signal_expr ; .)
+    $end            reduce using rule 4 (statement -> signal_expr ; .)
+
+
+state 12
+
+    (8) signal_expr -> signal_expr , . signal
+    (9) signal -> . SIGNAL_ID ( destination , destination )
+    (10) signal -> . SIGNAL_ID
+
+    SIGNAL_ID       shift and go to state 8
+
+    signal                         shift and go to state 18
+
+state 13
+
+    (5) statement -> VALUE_ID : . signal_expr ;
+    (7) signal_expr -> . signal
+    (8) signal_expr -> . signal_expr , signal
+    (9) signal -> . SIGNAL_ID ( destination , destination )
+    (10) signal -> . SIGNAL_ID
+
+    SIGNAL_ID       shift and go to state 8
+
+    signal_expr                    shift and go to state 19
+    signal                         shift and go to state 7
+
+state 14
+
+    (6) statement -> < number . >
+
+    >               shift and go to state 20
+
+
+state 15
+
+    (13) number -> NUMBER_HEX .
+
+    >               reduce using rule 13 (number -> NUMBER_HEX .)
+    ,               reduce using rule 13 (number -> NUMBER_HEX .)
+    )               reduce using rule 13 (number -> NUMBER_HEX .)
+
+
+state 16
+
+    (14) number -> NUMBER_DEC .
+
+    >               reduce using rule 14 (number -> NUMBER_DEC .)
+    ,               reduce using rule 14 (number -> NUMBER_DEC .)
+    )               reduce using rule 14 (number -> NUMBER_DEC .)
+
+
+state 17
+
+    (9) signal -> SIGNAL_ID ( . destination , destination )
+    (11) destination -> . LABEL_ID
+    (12) destination -> . number
+    (13) number -> . NUMBER_HEX
+    (14) number -> . NUMBER_DEC
+
+    LABEL_ID        shift and go to state 22
+    NUMBER_HEX      shift and go to state 15
+    NUMBER_DEC      shift and go to state 16
+
+    destination                    shift and go to state 21
+    number                         shift and go to state 23
+
+state 18
+
+    (8) signal_expr -> signal_expr , signal .
+
+    ;               reduce using rule 8 (signal_expr -> signal_expr , signal .)
+    ,               reduce using rule 8 (signal_expr -> signal_expr , signal .)
+
+
+state 19
+
+    (5) statement -> VALUE_ID : signal_expr . ;
+    (8) signal_expr -> signal_expr . , signal
+
+    ;               shift and go to state 24
+    ,               shift and go to state 12
+
+
+state 20
+
+    (6) statement -> < number > .
+
+    LABEL_ID        reduce using rule 6 (statement -> < number > .)
+    VALUE_ID        reduce using rule 6 (statement -> < number > .)
+    <               reduce using rule 6 (statement -> < number > .)
+    SIGNAL_ID       reduce using rule 6 (statement -> < number > .)
+    $end            reduce using rule 6 (statement -> < number > .)
+
+
+state 21
+
+    (9) signal -> SIGNAL_ID ( destination . , destination )
+
+    ,               shift and go to state 25
+
+
+state 22
+
+    (11) destination -> LABEL_ID .
+
+    ,               reduce using rule 11 (destination -> LABEL_ID .)
+    )               reduce using rule 11 (destination -> LABEL_ID .)
+
+
+state 23
+
+    (12) destination -> number .
+
+    ,               reduce using rule 12 (destination -> number .)
+    )               reduce using rule 12 (destination -> number .)
+
+
+state 24
+
+    (5) statement -> VALUE_ID : signal_expr ; .
+
+    LABEL_ID        reduce using rule 5 (statement -> VALUE_ID : signal_expr ; .)
+    VALUE_ID        reduce using rule 5 (statement -> VALUE_ID : signal_expr ; .)
+    <               reduce using rule 5 (statement -> VALUE_ID : signal_expr ; .)
+    SIGNAL_ID       reduce using rule 5 (statement -> VALUE_ID : signal_expr ; .)
+    $end            reduce using rule 5 (statement -> VALUE_ID : signal_expr ; .)
+
+
+state 25
+
+    (9) signal -> SIGNAL_ID ( destination , . destination )
+    (11) destination -> . LABEL_ID
+    (12) destination -> . number
+    (13) number -> . NUMBER_HEX
+    (14) number -> . NUMBER_DEC
+
+    LABEL_ID        shift and go to state 22
+    NUMBER_HEX      shift and go to state 15
+    NUMBER_DEC      shift and go to state 16
+
+    destination                    shift and go to state 26
+    number                         shift and go to state 23
+
+state 26
+
+    (9) signal -> SIGNAL_ID ( destination , destination . )
+
+    )               shift and go to state 27
+
+
+state 27
+
+    (9) signal -> SIGNAL_ID ( destination , destination ) .
+
+    ;               reduce using rule 9 (signal -> SIGNAL_ID ( destination , destination ) .)
+    ,               reduce using rule 9 (signal -> SIGNAL_ID ( destination , destination ) .)
+
