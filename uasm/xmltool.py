@@ -1,0 +1,32 @@
+import xml.etree.ElementTree
+
+# it's not you, this whole file is a disgusting hack
+
+tree = xml.etree.ElementTree.parse('../n16.circ')
+root = tree.getroot()
+
+rom_data = ['',]*6
+for f in range(6):
+    rom_data[f] = open('u.'+str(f)+'.out', 'r').read()
+
+# find roms
+i = 0
+control_roms = []
+for circ in root.findall('circuit'):
+    if circ.get('name') == 'CONTROL':
+        for comp in circ.findall('comp'):
+            if comp.get('name') == 'ROM':
+                a = comp.find('a')
+                loc = eval(comp.get('loc'))
+                control_roms.append([a, loc[1]])
+                i += 1
+        break
+
+control_roms = sorted(control_roms, key=lambda tup: tup[1])
+
+i = 0
+for tup in control_roms:
+    tup[0].text = 'addr/data: 8 8\n' + rom_data[i][9:] + '\n'
+    i += 1
+
+tree.write('../n16.circ')

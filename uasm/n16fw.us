@@ -1,2 +1,7 @@
 <0x00>
 @Start:
+    EN_INST, EN_PC_0, EN_IR, EN_MDR, RAM_LD;
+
+<0xb8>
+@MyInstruction:
+    EN_INST, EN_PC_0, branch(@Start, 0);
