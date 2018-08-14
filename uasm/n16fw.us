@@ -1,29 +1,23 @@
+// EN_MDR may be redundant
+//
+// alu op
+//
+//   iiiiii ttt sss oooo
+// b 101000 001 010 0001
+// h a0 a1
+
 <0x00>
 @Init:
-    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
-@Fetch:
-    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
+@InstNoop:
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD; // init and noop
 
 <0xa0>
-@MyInstruction1:
-    EN_IR, EN_PC_0, RU_SRC, EN_PC_0, RAM_LD, EN_MDR;
+@InstALURegisterTransfer:
+    RU_SEL_RS, RU_SEL_RT, RU_EN_RT, // Register
+    SEL_ALU,                        // ALU
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD; // Fetch next instruction on falling edge
 
 <0xb0>
-@MyInstruction2:
-    EN_IR, EN_PC_0, RU_EN_RT, EN_PC_0, RAM_LD;
+@InstUnused:
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD; // Fetch next instruction on falling edge
 
-<0xc0>
-@MyInstruction3:
-    EN_IR, EN_PC_0, RU_SEL_RT, EN_PC_0, RAM_LD;
-
-<0xd0>
-@MyInstruction4:
-    EN_IR, EN_PC_0, RU_SEL_RS, EN_PC_0, RAM_LD;
-
-<0xe0>
-@MyInstruction5:
-    EN_IR, EN_PC_0, RU_EN_RT, EN_PC_0, RAM_LD;
-
-<0xf0>
-@MyInstruction6:
-    EN_IR, EN_PC_0, SEL_ALU, EN_PC_0, RAM_LD;
