@@ -11,7 +11,6 @@ def p_root(t):
     t[0] = ast.Root()
     t[0].statements.append(t[1])
 
-
 def p_compound_program(t):
     r" root : root statement "
     t[0] = t[1]
