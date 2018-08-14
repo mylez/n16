@@ -1,7 +1,33 @@
 <0x00>
-@Start:
-    EN_INST, EN_PC_0, EN_IR, EN_MDR, RAM_LD;
+@Init:
+    EN_IR, EN_PC_0, EN_MDR RAM_LD;
+@Fetch:
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
 
-<0xb8>
-@MyInstruction:
-    EN_INST, EN_PC_0, branch(@Start, 0);
+<0xa0>
+@MyInstruction1:
+    EN_IR, EN_PC_0, RU_SRC, EN_PC_0, RAM_LD, EN_MDR;
+
+<0xb0>
+@MyInstruction2:
+    EN_IR, EN_PC_0, RU_EN_RT, EN_PC_0, RAM_LD;
+
+<0xc0>
+@MyInstruction2:
+    EN_IR, EN_PC_0, RU_SEL_RT, EN_PC_0, RAM_LD;
+
+<0xd0>
+@MyInstruction3:
+    EN_IR, EN_PC_0, RU_SEL_RS,  EN_PC_0, RAM_LD;
+
+<0xd0>
+@MyInstruction4:
+    EN_MC_DEC, RU_HI_RS_REG, branch(@Fetch, 0);
+
+<0xe0>
+@MyInstruction5:
+    EN_MC_DEC, RU_HI_RT_REG, branch(@Fetch, 0);
+
+<0xf0>
+@MyInstruction6:
+    EN_MC_DEC, ALU_SRC_A, branch(@Fetch, 0);
