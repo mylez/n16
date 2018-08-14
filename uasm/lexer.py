@@ -11,7 +11,7 @@ t_NUMBER_DEC = r' [0]|[1-9][0-9]* '
 t_NUMBER_HEX = r' [0][xX][0-9a-fA-F]+ '
 
 literals = [';', ':', ',', '<', '>', '(', ')']
-t_ignore = " \t"
+t_ignore = ' \t'
 
 def t_newline(t):
     r'\n'

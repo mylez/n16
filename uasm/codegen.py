@@ -85,7 +85,7 @@ def write_logisim_rom_files(rom_repr, args):
     for k in rom_repr.keys():
         rk = rom_repr[k]
         if args.v:
-            print( "<%d>\ta: %d\tb: %d" %(k, rk.branch_a, rk.branch_b))
+            print("<%d>\ta: %d\tb: %d" %(k, rk.branch_a, rk.branch_b))
         for l in rk.signal_lines:
             byte = int(math.floor(l / 8))
             bit = l - byte * 8

@@ -4,10 +4,10 @@ import argparse
 import codegen
 
 if __name__ == '__main__':
-    argp = argparse.ArgumentParser(description='A microcode assembler for the n16 and n32')
-    argp.add_argument('input_files', nargs='+')
-    argp.add_argument('-o', type=str, default='u', help='output file path and prefix')
-    argp.add_argument('-v', nargs=1, default=False, help='verbose/debug output')
+    argp = argparse.ArgumentParser(description='A microcode assembler for the n16')
+    argp.add_argument('input_files', type=str, nargs='+')
+    argp.add_argument('-o', type=str, default='u', help='file path and prefix for output files')
+    argp.add_argument('-v', action='store_true', default=False, help='verbose/debug printing')
     args = argp.parse_args()
 
     codegen.parse_and_write(args)
