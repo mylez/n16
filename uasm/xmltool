@@ -1,15 +1,16 @@
+#!/usr/bin/env python3
+
 import xml.etree.ElementTree
 
 # it's not you, this whole file is a disgusting hack
-
 tree = xml.etree.ElementTree.parse('../n16.circ')
 root = tree.getroot()
-
 rom_data = ['',]*6
+
 for f in range(6):
     rom_data[f] = open('u.'+str(f)+'.out', 'r').read()
 
-# find roms
+# find the roms inside control circuit
 i = 0
 control_roms = []
 for circ in root.findall('circuit'):
@@ -22,6 +23,7 @@ for circ in root.findall('circuit'):
                 i += 1
         break
 
+# since roms have no labels in logisim, they must be sorted by y-position
 control_roms = sorted(control_roms, key=lambda tup: tup[1])
 
 i = 0

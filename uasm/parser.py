@@ -86,7 +86,8 @@ def p_number(t):
     t[0] = int(t[1], 0)
 
 def p_error(t):
-    print("syntax error at '%s'" % t.value)
+    print("syntax error at '%s' on line %d" % (t.value, t.lexer.lineno))
+    exit(1)
 
 
 parser = yacc.yacc()

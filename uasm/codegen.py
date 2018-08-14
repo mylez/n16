@@ -49,7 +49,6 @@ def generate_ucode(root):
     symbols = {}
     addr = 0
 
-    print('first pass')
     for s in root.statements:
         stype = type(s)
 
@@ -62,7 +61,6 @@ def generate_ucode(root):
         elif stype == ast.SignalExpr:
             addr += 1
 
-    print('second pass')
     addr = 0
     rom_repr = {}
     for s in root.statements:
@@ -82,17 +80,18 @@ def generate_ucode(root):
 
 
 
-def write_logisim_rom_files(rom_repr):
-    print('write roms')
+def write_logisim_rom_files(rom_repr, args):
     roms = [[0x0 , ] *0x100 for i in range(num_signal_bytes)]
     for k in rom_repr.keys():
         rk = rom_repr[k]
-        print( "<%d>\ta: %d\tb: %d" %(k, rk.branch_a, rk.branch_b))
+        if args.v:
+            print( "<%d>\ta: %d\tb: %d" %(k, rk.branch_a, rk.branch_b))
         for l in rk.signal_lines:
             byte = int(math.floor(l / 8))
             bit = l - byte * 8
             roms[byte][k] |= 1 << bit
-            print("    writing bit %d of byte %d" % (bit, byte))
+            if args.v:
+                print("    writing bit %d of byte %d" % (bit, byte))
         roms[num_signal_bytes - 2][k] = rk.branch_a
         roms[num_signal_bytes - 1][k] = rk.branch_b
 
@@ -107,5 +106,5 @@ def write_logisim_rom_files(rom_repr):
 def parse_and_write(args):
     root = parse_files(args)
     addr, symbols, rom_repr = generate_ucode(root)
-    write_logisim_rom_files(rom_repr)
+    write_logisim_rom_files(rom_repr, args)
 

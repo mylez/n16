@@ -1,3 +1,2 @@
 rom:
-	./uasm n16fw.us && echo 'xmltool...' && python xmltool.py && echo 'done'
-
+	echo "uasm" && ./uasm n16fw.us && echo 'xmltool' && ./xmltool && echo 'success'
