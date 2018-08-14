@@ -2,7 +2,7 @@
 //
 // alu op
 //
-//   iiiiii ttt sss oooo
+//   oooooo ttt sss aaaa
 // b 101000 001 010 0001
 // h a0 a1
 
