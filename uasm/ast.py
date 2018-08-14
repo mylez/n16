@@ -50,3 +50,4 @@ class Signal:
         self.signal_lines = []
         self.branch_a = 0
         self.branch_b = 0
+

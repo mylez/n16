@@ -108,3 +108,4 @@ def parse_and_write(args):
     root = parse_files(args)
     addr, symbols, rom_repr = generate_ucode(root)
     write_logisim_rom_files(rom_repr)
+

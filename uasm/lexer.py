@@ -23,3 +23,4 @@ def t_error(t):
 
 # build lexer
 lexer = lex.lex()
+
