@@ -91,10 +91,6 @@ def write_logisim_rom_files(rom_repr, args):
         roms[-2][k] = rk.branch_a
         roms[-1][k] = rk.branch_b
 
-        print(len(roms), num_signal_bytes)
-        for i in range(6):
-            print('roms', roms[i])
-
 
     for i in range(num_signal_bytes):
         out = open( "u.%d.out" %i, 'w')
@@ -105,6 +101,8 @@ def write_logisim_rom_files(rom_repr, args):
 
 
 def parse_and_write(args):
+    if args.v:
+        print('rom size:', num_signal_bytes, 'bytes')
     root = parse_files(args)
     addr, symbols, rom_repr = generate_ucode(root)
     write_logisim_rom_files(rom_repr, args)

@@ -1,42 +1,19 @@
 // EN_MDR may be redundant
 //
-// alu op
+//   oooooo ttt sss aaaa  iiiiiiiiiiiiiiii
 //
-//   oooooo ttt sss aaaa
-// b 101000 001 010 0001
-// h a0 a1
+//
+//   oooo oott tsss aaaa  iiii iiii iiii iiii
+// b 1100 0000 0000 0001  0001 0010 0011 0100
+// h    c    0    0    1     0    0    0    0
+//   c001 0000
+//
+//
 
 <0x00>
 @Init:
 @InstNoop:
     EN_IR, EN_PC_0, RAM_LD, EN_PC_0; // init and noop
-
-
-
-
-
-
-//
-//  Data Loading Instructions
-//
-<0xb0> @InstLoadImm16:
-    INST_FORM_0_SRC, EN_INST_FORM_0, EN_PC_0,
-    RU_SRC, RU_EN_RT, EN_MC_DEC, RAM_LD, branch(@Init, 0);
-
-
-    // Register
-    //RU_SEL_RS, RU_EN_RT,
-    // RAM
-    //RAM_DAT_SRC_1, EN_MDR,
-    // ALU
-    //SEL_ALU, ALU_SRC_B_1;
-    //
-    // Fetch next instruction on falling edge
-    //EN_IR, EN_PC_0, RAM_LD;
-
-
-
-
 
 
 
@@ -67,3 +44,18 @@
     RU_SEL_RS, RU_SEL_RT, RU_EN_RT, RU_HI_RS_REG, RU_HI_RT_REG,
     SEL_ALU,
     EN_IR, EN_PC_0, EN_MDR, RAM_LD;
+
+
+
+//
+//  Data Loading Instructions
+//
+<0xb0>
+@InstLoadImm16:
+    INST_FORM_0_SRC, EN_INST_FORM_0, EN_PC_0,
+    RU_SRC, RU_EN_RT, EN_MC_DEC, RAM_LD, branch(@Init, 0);
+
+
+
+<0xc0>
+@InstJumpPCRel:
