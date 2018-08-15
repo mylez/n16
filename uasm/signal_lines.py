@@ -10,4 +10,4 @@ for line in txt.splitlines():
         signal_lines[split[1]] = int(split[0], 16)
 
 num_signal_lines = len(signal_lines)
-num_signal_bytes = 2 + int(math.ceil(num_signal_lines/8))
+num_signal_bytes = 6#2 + int(math.ceil(num_signal_lines/8))

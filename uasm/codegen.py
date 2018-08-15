@@ -7,10 +7,8 @@ import math
 def resolve_dest(symbols, dest):
     if dest.is_literal:
         return dest.address
-
     if dest.label in symbols.keys():
         return symbols[dest.label]
-
     print("error: unkown symbol '%d' in destination" % dest.label)
     exit(1)
 
@@ -27,6 +25,7 @@ def evaluate_signal_expr(expr, addr, symbols):
                 s.signal_lines.append(signal_lines[id.label])
             else:
                 print("error: unkown signal id '%s'" % id.label)
+                exit(1)
 
         elif idtype == ast.SignalBranch:
             if id.label == 'branch':
@@ -40,9 +39,7 @@ def parse_files(args):
     source = ''
     for input_file in args.input_files:
         source += open(input_file, 'r').read() + '\n'
-
     return parser.parse(source)
-
 
 
 def generate_ucode(root):
@@ -79,7 +76,6 @@ def generate_ucode(root):
     return addr, symbols, rom_repr
 
 
-
 def write_logisim_rom_files(rom_repr, args):
     roms = [[0x0 , ] *0x100 for i in range(num_signal_bytes)]
     for k in rom_repr.keys():
@@ -92,8 +88,12 @@ def write_logisim_rom_files(rom_repr, args):
             roms[byte][k] |= 1 << bit
             if args.v:
                 print("    writing bit %d of byte %d" % (bit, byte))
-        roms[num_signal_bytes - 2][k] = rk.branch_a
-        roms[num_signal_bytes - 1][k] = rk.branch_b
+        roms[-2][k] = rk.branch_a
+        roms[-1][k] = rk.branch_b
+
+        print(len(roms), num_signal_bytes)
+        for i in range(6):
+            print('roms', roms[i])
 
 
     for i in range(num_signal_bytes):
@@ -103,8 +103,8 @@ def write_logisim_rom_files(rom_repr, args):
             out.write(hex(roms[i][j])[2:] + ' ')
         out.close()
 
+
 def parse_and_write(args):
     root = parse_files(args)
     addr, symbols, rom_repr = generate_ucode(root)
     write_logisim_rom_files(rom_repr, args)
-

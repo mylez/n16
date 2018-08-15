@@ -19,12 +19,16 @@ for circ in root.findall('circuit'):
             if comp.get('name') == 'ROM':
                 a = comp.find('a')
                 loc = eval(comp.get('loc'))
+                print('loc:', loc)
                 control_roms.append([a, loc[1]])
                 i += 1
         break
 
 # since roms have no labels in logisim, they must be sorted by y-position
 control_roms = sorted(control_roms, key=lambda tup: tup[1])
+
+for tup in control_roms:
+    print('loc:', tup)
 
 i = 0
 for tup in control_roms:

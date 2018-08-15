@@ -9,15 +9,61 @@
 <0x00>
 @Init:
 @InstNoop:
-    EN_IR, EN_PC_0, EN_MDR, RAM_LD; // init and noop
+    EN_IR, EN_PC_0, RAM_LD, EN_PC_0; // init and noop
 
+
+
+
+
+
+//
+//  Data Loading Instructions
+//
+<0xb0> @InstLoadUnsignedImm10:
+    INST_FORM_0_SRC, EN_INST_FORM_0, EN_PC_0,
+    RU_SRC, RU_EN_RT, EN_MC_DEC, RAM_LD, branch(@Init, 0);
+
+
+    // Register
+    //RU_SEL_RS, RU_EN_RT,
+    // RAM
+    //RAM_DAT_SRC_1, EN_MDR,
+    // ALU
+    //SEL_ALU, ALU_SRC_B_1;
+    //
+    // Fetch next instruction on falling edge
+    //EN_IR, EN_PC_0, RAM_LD;
+
+
+
+
+
+
+
+//
+//  ALU Register Transfer Instructions
+//
 <0xa0>
-@InstALURegisterTransfer:
-    RU_SEL_RS, RU_SEL_RT, RU_EN_RT, // Register
-    SEL_ALU,                        // ALU
-    EN_IR, EN_PC_0, EN_MDR, RAM_LD; // Fetch next instruction on falling edge
+@InstALURegisterLoLoTransfer:
+    EN_INST_FORM_0, INST_FORM_0_SRC,
+    RU_SEL_RS, RU_SEL_RT, RU_EN_RT,
+    SEL_ALU,
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
 
-<0xb0>
-@InstUnused:
-    EN_IR, EN_PC_0, EN_MDR, RAM_LD; // Fetch next instruction on falling edge
+<0xa4>
+@InstALURegisterLoHiTransfer:
+    RU_SEL_RS, RU_SEL_RT, RU_EN_RT, RU_HI_RS_REG,
+    SEL_ALU,
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
 
+<0xa8>
+@InstALURegisterHiLoTransfer:
+    RU_SEL_RS, RU_SEL_RT, RU_EN_RT, RU_HI_RT_REG,
+    SEL_ALU,
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
+
+<0xac>
+@InstALURegisterHiHiTransfer:
+    RU_SEL_RS, RU_SEL_RT, RU_EN_RT, RU_HI_RS_REG, RU_HI_RT_REG,
+    SEL_ALU,
+    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
