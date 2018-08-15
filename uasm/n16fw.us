@@ -19,7 +19,7 @@
 //
 //  Data Loading Instructions
 //
-<0xb0> @InstLoadUnsignedImm10:
+<0xb0> @InstLoadImm16:
     INST_FORM_0_SRC, EN_INST_FORM_0, EN_PC_0,
     RU_SRC, RU_EN_RT, EN_MC_DEC, RAM_LD, branch(@Init, 0);
 
