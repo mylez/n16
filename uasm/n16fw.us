@@ -4,15 +4,16 @@
 //
 //
 //   oooo oott tsss aaaa  iiii iiii iiii iiii
-// b 1100 0000 0000 0001  0001 0010 0011 0100
-// h    c    0    0    1     0    0    0    0
-//   c001 0000
+// b 1100 0000 0000 0001  0000 0000 0000 0010
+// h    c    0    0    1     0    0    0    2
+//   c001 0002
 //
 //
 
 <0x00>
 @Init:
 @InstNoop:
+@Fetch:
     EN_IR, EN_PC_0, RAM_LD, EN_PC_0; // init and noop
 
 
@@ -53,9 +54,11 @@
 <0xb0>
 @InstLoadImm16:
     INST_FORM_0_SRC, EN_INST_FORM_0, EN_PC_0,
-    RU_SRC, RU_EN_RT, EN_MC_DEC, RAM_LD, branch(@Init, 0);
+    RU_SRC, RU_EN_RT, EN_MC_DEC, RAM_LD, branch(@Fetch, 0);
 
 
 
 <0xc0>
-@InstJumpPCRel:
+@InstJumpDirect:
+    INST_FORM_0_SRC, EN_INST_FORM_0, EN_PC_0, RAM_LD,
+    PC_0_SRC, SEL_ALU, ALU_SRC_B_0, EN_MC_DEC, branch(@Fetch, 0);
