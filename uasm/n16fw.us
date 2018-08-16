@@ -6,6 +6,7 @@
 //   oooo oott tsss aaaa  iiii iiii iiii iiii
 // b 1100 0000 0000 0001  0000 0000 0000 0010
 // h    c    0    0    1     0    0    0    2
+//
 //   c001 0002
 //
 //
@@ -43,8 +44,7 @@
 <0xac>
 @InstALURegisterHiHiTransfer:
     RU_SEL_RS, RU_SEL_RT, RU_EN_RT, RU_HI_RS_REG, RU_HI_RT_REG,
-    SEL_ALU,
-    EN_IR, EN_PC_0, EN_MDR, RAM_LD;
+    SEL_ALU, EN_IR, EN_PC_0, EN_MDR, RAM_LD;
 
 
 

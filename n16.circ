@@ -1191,7 +1191,7 @@
     <comp lib="4" loc="(710,280)" name="ROM">
       <a name="addrWidth" val="24"/>
       <a name="contents">addr/data: 24 8
-80 0 0 1 1 0 1 4
+80 0 0 1 1 0 1 8
 12*a1 80 4 0 1 16*a1 80 4
 0 1 16*a1 80 4 0 1 16*a1
 80 4 0 1 16*a1 80 4 0
