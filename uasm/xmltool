@@ -3,7 +3,7 @@
 import xml.etree.ElementTree
 
 # it's not you, this whole file is a disgusting hack
-tree = xml.etree.ElementTree.parse('../n16.circ')
+tree = xml.etree.ElementTree.parse('../n16sc.circ')
 root = tree.getroot()
 rom_data = ['',]*6
 
@@ -32,4 +32,4 @@ for tup in control_roms:
     tup[0].text = 'addr/data: 8 8\n' + rom_data[i][9:] + '\n'
     i += 1
 
-tree.write('../n16.circ')
+tree.write('../n16sc.circ')
